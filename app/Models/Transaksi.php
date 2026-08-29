@@ -12,4 +12,14 @@ class Transaksi extends Model
     protected $fillable = ['user_id', 'kode_transaksi', 'tipe', 'tanggal', 'keterangan'];
 
     protected $casts = ['tanggal' => 'date'];
+
+    public function details()
+    {
+        return $this->hasMany(DetailTransaksi::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

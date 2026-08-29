@@ -1,0 +1,19 @@
+Akun admin:
+admin@bpkp.go.id
+password
+
+php artisan serve --host=0.0.0.0
+
+password Lantai 1B
+192.168.38.43:8000
+
+ini untuk Wifi diklat
+http://10.123.2.195:8000
+
+
+
+
+lakukan update selalu untuk aplikasi ini.
+git add .
+git commit -m "pembaruan 0"
+git push
