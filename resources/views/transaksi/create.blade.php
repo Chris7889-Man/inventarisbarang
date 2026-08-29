@@ -6,8 +6,8 @@
         <h4 class="mb-1 fw-bold">Transaksi Barang</h4>
         <p class="mb-3 text-muted small">Catat barang masuk atau barang keluar secara individual.</p>
         <div class="d-flex gap-2">
-            <button type="button" id="btnMasuk" class="btn btn-success px-4 active"><i class="bi bi-plus-circle me-1"></i>Masuk</button>
-            <button type="button" id="btnKeluar" class="btn btn-outline-danger px-4"><i class="bi bi-dash-circle me-1"></i>Keluar</button>
+            <button type="button" id="btnMasuk" class="btn btn-success px-4 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
+            <button type="button" id="btnKeluar" class="btn btn-outline-warning px-4"><i class="bi bi-arrow-up-short me-1"></i>Keluar</button>
         </div>
     </div>
     <div class="card-body p-4">
@@ -46,8 +46,8 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-end mt-4">
-                <button type="submit" id="submitButton" class="btn btn-success px-4"><i class="bi bi-check-circle me-1"></i>Simpan Barang Masuk</button>
+            <div class="d-flex justify-content-start mt-4">
+                <button type="submit" id="submitButton" class="btn btn-outline-success px-4">Simpan</button>
             </div>
         </form>
     </div>
@@ -61,8 +61,8 @@ function pilihTipe(jenis) {
     tipe.value = jenis;
     const masuk = jenis === 'masuk';
     btnMasuk.className = masuk ? 'btn btn-success px-4 active' : 'btn btn-outline-success px-4';
-    btnKeluar.className = masuk ? 'btn btn-outline-danger px-4' : 'btn btn-danger px-4 active';
-    submitButton.className = masuk ? 'btn btn-success px-4' : 'btn btn-danger px-4';
+    btnKeluar.className = masuk ? 'btn btn-outline-warning px-4' : 'btn btn-warning px-4 active';
+    submitButton.className = 'btn btn-secondary px-4 text-white';
     submitButton.innerHTML = masuk ? '<i class="bi bi-check-circle me-1"></i>Simpan Barang Masuk' : '<i class="bi bi-check-circle me-1"></i>Simpan Barang Keluar';
 }
 btnMasuk.addEventListener('click', () => pilihTipe('masuk'));
@@ -78,5 +78,6 @@ input.addEventListener('input', () => {
 const jumlah = document.getElementById('jumlah');
 document.getElementById('kurang').addEventListener('click', () => { jumlah.value = Math.max(1, Number(jumlah.value || 1) - 1); });
 document.getElementById('tambahJumlah').addEventListener('click', () => { jumlah.value = Number(jumlah.value || 0) + 1; });
+submitButton.addEventListener('click', () => { submitButton.className = 'btn btn-success px-4'; });
 </script>
 @endsection
