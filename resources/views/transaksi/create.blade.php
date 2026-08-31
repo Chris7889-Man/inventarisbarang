@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Transaksi Barang')
 @section('content')
-<div class="card border-0 shadow-sm">
+<div class="card card-ringkas border-0 shadow-sm">
     <div class="card-header bg-white py-3">
         <h4 class="mb-1 fw-bold">Transaksi Barang</h4>
         <p class="mb-3 text-muted small">Catat barang masuk atau barang keluar secara individual.</p>
@@ -17,7 +17,7 @@
             <input id="tipe" name="tipe" type="hidden" value="masuk">
             <div class="row g-4">
                 <div class="col-lg-6">
-                    <div class="border rounded-4 p-3 h-100 bg-light-subtle">
+                    <div class="card card-info border-0 rounded-4 p-3 h-100">
                         <div class="fw-semibold mb-3"><i class="bi bi-box-seam text-primary me-2"></i>Data Barang</div>
                         <label class="form-label">No / Nama Barang</label>
                         <input id="cariBarang" class="form-control" list="daftarBarang" placeholder="Ketik kode atau nama barang" required>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="border rounded-4 p-3 h-100 bg-light-subtle">
+                    <div class="card card-input border-0 rounded-4 p-3 h-100">
                         <div class="fw-semibold mb-3"><i class="bi bi-calculator text-primary me-2"></i>Jumlah Transaksi</div>
                         <label class="form-label">Jumlah</label>
                         <div class="input-group input-group-lg">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="border rounded-4 p-3 bg-light-subtle">
+                    <div class="card card-upload border-0 rounded-4 p-3">
                         <div class="fw-semibold mb-3"><i class="bi bi-card-text text-primary me-2"></i>Keterangan</div>
                         <textarea name="keterangan" class="form-control" rows="3" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
                     </div>

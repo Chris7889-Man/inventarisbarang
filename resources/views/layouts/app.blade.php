@@ -116,11 +116,77 @@
             .sidebar{transform:translateX(-100%);transition:.25s}
             .sidebar.show{transform:translateX(0)}
             .page{margin-left:0}
-            .content{padding:1.25rem}
+            .content{padding:1rem !important}
+            .btn{padding:.4rem .8rem!important}
         }
         @media(min-width:992px){
             .menu-toggle{display:none!important}
         }
+        /* Responsif sangat kecil (HP) */
+        @media(max-width:575px){
+            .page-title{font-size:1.1rem}
+            .content{padding:.75rem!important}
+            .modal-dialog{margin:0}
+            .modal-content{border-radius:0;min-height:100vh}
+            .modal-body{padding:1rem}
+            .btn-success-soft,.btn-outline-secondary{width:100%}
+        }
+        /* ===== CARD WARNA & GLOW (konsisten #FAF6F0) ===== */
+        .card-profil, .card-input, .card-upload, .card-info, .card-ringkas {
+            background: #FAF6F0;
+            border: 1px solid #f0eadd;
+            transition: all .3s ease;
+        }
+        .card-profil:hover, .card-input:hover, .card-upload:hover, .card-info:hover, .card-ringkas:hover,
+        .card-profil:focus-within, .card-input:focus-within, .card-upload:focus-within, .card-info:focus-within, .card-ringkas:focus-within,
+        .card-profil.active-card, .card-input.active-card, .card-upload.active-card, .card-info.active-card, .card-ringkas.active-card {
+            box-shadow: 0 0 15px 4px rgba(245,158,11,.15);
+            border-color: #e0d8c8;
+            transform: translateY(-2px);
+        }
+
+/* Warna soft */
+        .btn-success-soft {
+            background: #d1fae5; /* hijau pastel */
+            color: #065f46; /* hijau tua untuk teks */
+            border: 1px solid #6ee7b7;
+        }
+        .btn-success-soft:hover {
+            background: #a7f3d0;
+            color: #064e3b;
+        }
+        /* Warna soft untuk ikon kamera dan aksi kecil */
+        .foto-action-icon {
+            color: #64748b; /* abu-abu soft */
+            transition: color .2s;
+        }
+        .foto-action-icon:hover {
+            color: #2563eb;
+        }
     </style>
 </head>
-<body style="font-size:{{ match(session('font_size')) { 'xs' => '12px', 'sm' => '14px', 'lg' => '18px', 'xl' => '21px', 'xxl' => '24px', default => '16px' } }}"><div class="app-shell"><aside id="sidebar" class="sidebar text-white"><div class="brand text-center p-4"><img src="/image.png" alt="Logo BPKP" class="img-fluid"><div class="mt-2 fw-semibold">Inventaris BPKP</div><small class="text-white-50">Sistem Manajemen Barang</small></div><nav class="p-3"><div class="nav-label px-2 mb-2">MENU UTAMA</div><a class="side-link {{ Request::is('transaksi') ? 'active' : '' }}" href="/transaksi"><i class="bi bi-list-task me-3"></i>Daftar Transaksi</a><a class="side-link {{ Request::is('barang*') ? 'active' : '' }}" href="/barang"><i class="bi bi-box-seam me-3"></i>Master Barang</a><a class="side-link {{ Request::is('transaksi/create') ? 'active' : '' }}" href="/transaksi/create"><i class="bi bi-arrow-left-right me-3"></i>Transaksi</a><a class="side-link {{ Request::is('riwayat') ? 'active' : '' }}" href="/riwayat"><i class="bi bi-clock-history me-3"></i>Riwayat</a><div class="nav-label px-2 mt-4 mb-2">SISTEM</div><a class="side-link {{ Request::is('setting') ? 'active' : '' }}" href="/setting"><i class="bi bi-gear me-3"></i>{{ __('app.settings') }}</a><form id="logoutForm" action="/logout" method="POST">@csrf</form><a class="side-link text-danger" href="#" onclick="event.preventDefault();document.getElementById('logoutForm').submit()"><i class="bi bi-box-arrow-left me-3"></i>Logout</a></nav></aside><section class="page"><header class="topbar d-flex align-items-center justify-content-between px-3 px-lg-4"><button id="menuToggle" class="menu-toggle btn btn-light border"><i class="bi bi-list fs-5"></i></button><div><h1 class="page-title">@yield('title', 'Inventaris Barang')</h1><div class="page-subtitle">Badan Pengawasan Keuangan dan Pembangunan</div></div><div class="d-flex align-items-center gap-2"><span class="d-none d-sm-inline text-end"><small class="d-block text-muted">{{ auth()->user()->role ?? 'Pengguna' }}</small><strong>{{ auth()->user()->name ?? 'Pengguna' }}</strong></span><span class="user-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}</span></div></header><main class="content">@yield('content')</main></section></div><script>document.getElementById('menuToggle').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('show'))</script></body></html>
+<body style="font-size:{{ match(session('font_size')) { 'xs' => '12px', 'sm' => '14px', 'lg' => '18px', 'xl' => '21px', 'xxl' => '24px', default => '16px' } }}"><div class="app-shell"><aside id="sidebar" class="sidebar text-white"><div class="brand text-center p-4"><img src="/image.png" alt="Logo BPKP" class="img-fluid"><div class="mt-2 fw-semibold">Inventaris BPKP</div><small class="text-white-50">Sistem Manajemen Barang</small></div><nav class="p-3"><div class="nav-label px-2 mb-2">MENU UTAMA</div><a class="side-link {{ Request::is('transaksi') ? 'active' : '' }}" href="/transaksi"><i class="bi bi-list-task me-3"></i>Daftar Transaksi</a><a class="side-link {{ Request::is('barang*') ? 'active' : '' }}" href="/barang"><i class="bi bi-box-seam me-3"></i>Daftar Barang</a><a class="side-link {{ Request::is('transaksi/create') ? 'active' : '' }}" href="/transaksi/create"><i class="bi bi-arrow-left-right me-3"></i>Transaksi</a><a class="side-link {{ Request::is('riwayat') ? 'active' : '' }}" href="/riwayat"><i class="bi bi-clock-history me-3"></i>Riwayat</a><div class="nav-label px-2 mt-4 mb-2">SISTEM</div><a class="side-link {{ Request::is('setting') ? 'active' : '' }}" href="/setting"><i class="bi bi-gear me-3"></i>{{ __('app.settings') }}</a><form id="logoutForm" action="/logout" method="POST">@csrf</form><a class="side-link text-danger" href="#" onclick="event.preventDefault();document.getElementById('logoutForm').submit()"><i class="bi bi-box-arrow-left me-3"></i>Logout</a></nav></aside><section class="page"><header class="topbar d-flex align-items-center justify-content-between px-3 px-lg-4"><button id="menuToggle" class="menu-toggle btn btn-light border"><i class="bi bi-list fs-5"></i></button><div><h1 class="page-title">@yield('title', 'Inventaris Barang')</h1><div class="page-subtitle">Badan Pengawasan Keuangan dan Pembangunan</div></div><div class="d-flex align-items-center gap-2"><span class="d-none d-sm-inline text-end"><small class="d-block text-muted">{{ auth()->user()->role ?? 'Pengguna' }}</small><strong>{{ auth()->user()->name ?? 'Pengguna' }}</strong></span><span class="user-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}</span></div></header><main class="content">@yield('content')</main></section></div><style>
+        .cursor-pointer{cursor:pointer}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="modal fade" id="fotoPopupModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-body p-0 text-center">
+                    <img src="" id="fotoPopupImg" class="img-fluid rounded-4 shadow-lg" alt="Preview Foto">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('.foto-popup-trigger');
+        if (!trigger) return;
+        const src = trigger.dataset.src;
+        if (!src || src === '#') return;
+        document.getElementById('fotoPopupImg').src = src;
+        new bootstrap.Modal(document.getElementById('fotoPopupModal')).show();
+    });
+    document.getElementById('menuToggle').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('show'))
+    </script>
+</body></html>
