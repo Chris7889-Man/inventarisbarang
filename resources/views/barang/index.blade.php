@@ -27,7 +27,7 @@
                            data-src="{{ $barang->foto ? asset('storage/' . $barang->foto) : '#' }}"
                            title="Lihat foto"></i>
                     </td>
-                    <td class="text-start fw-semibold">{{ $barang->nama_barang }}</td>
+                    <td class="fw-semibold">{{ $barang->nama_barang }}</td>
                     <td class="d-none d-md-table-cell">{{ $barang->kategori ?? '-' }}</td>
                     <td class="d-none d-sm-table-cell">{{ $barang->created_at?->format('d/m/y') ?? '-' }}</td>
                     <td><a href="{{ route('barang.show', $barang) }}" class="btn btn-sm btn-outline-secondary" title="Lihat detail"><i class="bi bi-eye"></i></a></td>

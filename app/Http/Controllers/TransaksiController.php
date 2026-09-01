@@ -90,29 +90,27 @@ class TransaksiController extends Controller
     {
         $bulan = $request->get('bulan', now()->format('Y-m'));
         
-        // Ambil transaksi per barang yang terjadi di bulan tersebut
-        $riwayat = DetailTransaksi::with('barang')
-            ->whereHas('transaksi', function($query) use ($bulan) {
-                $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$bulan]);
-            })
-            ->get()
-            ->groupBy('barang_id')
-            ->map(function ($items) {
-                $barang = $items->first()->barang;
-                $masuk = $items->where('transaksi.tipe', 'masuk')->sum('jumlah');
-                $keluar = $items->where('transaksi.tipe', 'keluar')->sum('jumlah');
-                
-                // Sisa stok saat ini
-                $sisa = $barang->stok; 
+        // Ambil semua barang agar stok seluruhnya terlihat
+        $riwayat = Barang::all()->map(function ($barang) use ($bulan) {
+            // Ambil detail transaksi khusus barang ini di bulan tersebut
+            $details = DetailTransaksi::where('barang_id', $barang->id)
+                ->whereHas('transaksi', function($query) use ($bulan) {
+                    $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$bulan]);
+                })
+                ->with('transaksi')
+                ->get();
 
-                return (object) [
-                    'nama_barang' => $barang->nama_barang,
-                    'kategori' => $barang->kategori,
-                    'masuk' => $masuk,
-                    'keluar' => $keluar,
-                    'sisa' => $sisa
-                ];
-            });
+            $masuk = $details->where('transaksi.tipe', 'masuk')->sum('jumlah');
+            $keluar = $details->where('transaksi.tipe', 'keluar')->sum('jumlah');
+            
+            return (object) [
+                'nama_barang' => $barang->nama_barang,
+                'kategori' => $barang->kategori,
+                'masuk' => $masuk,
+                'keluar' => $keluar,
+                'sisa' => $barang->stok // Menampilkan seluruh stok saat ini
+            ];
+        });
 
         $sumMasuk = $riwayat->sum('masuk');
         $sumKeluar = $riwayat->sum('keluar');
