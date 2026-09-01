@@ -2,64 +2,58 @@
 @section('title', 'Transaksi Barang')
 @section('content')
 <div class="card card-ringkas border-0 shadow-sm">
-    <div class="card-header bg-white py-3">
-        <h4 class="mb-1 fw-bold">Transaksi Barang</h4>
-        <p class="mb-3 text-muted small">Catat barang masuk atau barang keluar secara individual.</p>
-        <div class="d-flex gap-2">
-            <button type="button" id="btnMasuk" class="btn btn-success px-4 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
-            <button type="button" id="btnKeluar" class="btn btn-outline-warning px-4"><i class="bi bi-arrow-up-short me-1"></i>Keluar</button>
-        </div>
+    <div class="card-header bg-white py-1">
+        <h6 class="mb-0 fw-bold">Transaksi Barang</h6>
     </div>
-    <div class="card-body p-4">
+    <div class="card-body p-2">
         @if ($errors->any())<div class="alert alert-danger">{{ $errors->first() }}</div>@endif
         <form method="POST" action="/transaksi" id="formTransaksi">
             @csrf
             <input id="tipe" name="tipe" type="hidden" value="masuk">
-            <div class="row g-4 align-items-start">
-                <div class="col-lg-5">
+            <div class="row g-2 align-items-start">
+                <div class="col-lg-8">
                     @include('components.tabel-barang', ['barangs' => $barangs])
                 </div>
-                <div class="col-lg-3">
-                    <div class="card card-info border-0 rounded-4 p-3">
-                        <div class="fw-semibold mb-3"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
-                        <label class="form-label">Kategori</label>
-                        <select id="kategori" name="kategori" class="form-select">
-                            <option value="">-- Pilih Kategori --</option>
-                            @php($cats = $barangs->pluck('kategori')->filter()->unique()->values())
-                            @foreach($cats as $cat)
-                                <option value="{{ $cat }}">{{ $cat }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
                 <div class="col-lg-4">
-                     <div class="card card-input border-0 rounded-4 p-3">
-                        <div class="fw-semibold mb-3"><i class="bi bi-calculator text-primary me-2"></i>Jumlah Transaksi</div>
-                        <label class="form-label">Jumlah</label>
-                        <div class="input-group">
-                            <button type="button" id="kurang" class="btn btn-outline-secondary"><i class="bi bi-dash-lg"></i></button>
-                            <input id="jumlah" name="jumlah" type="number" class="form-control text-center" min="1" value="1" required>
-                            <button type="button" id="tambahJumlah" class="btn btn-outline-secondary"><i class="bi bi-plus-lg"></i></button>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="card card-info border-0 rounded-4 p-3">
+                            <div class="fw-semibold mb-2"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
+                            <select id="kategori" name="kategori" class="form-select">
+                                <option value="">-- Pilih Kategori --</option>
+                                @php($cats = $barangs->pluck('kategori')->filter()->unique()->values())
+                                @foreach($cats as $cat)
+                                    <option value="{{ $cat }}">{{ $cat }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <small class="text-muted d-block mt-2">Gunakan tombol atau isi jumlah secara manual.</small>
+                        <div class="card border-0 rounded-4 p-3">
+                            <div class="fw-semibold mb-2"><i class="bi bi-arrow-left-right text-primary me-2"></i>Jenis Transaksi</div>
+                            <div class="d-flex gap-2">
+                                <button type="button" id="btnMasuk" class="btn btn-success px-3 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
+                                <button type="button" id="btnKeluar" class="btn btn-outline-warning px-3"><i class="bi bi-arrow-up-short me-1"></i>Keluar</button>
+                            </div>
+                        </div>
+                        <div class="card card-input border-0 rounded-4 p-3">
+                            <div class="fw-semibold mb-2"><i class="bi bi-calculator text-primary me-2"></i>Jumlah Stok</div>
+                            <input id="jumlah" name="jumlah" type="number" class="form-control text-center" min="1" value="1" required>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="card card-upload border-0 rounded-4 p-3">
-                        <div class="fw-semibold mb-3"><i class="bi bi-card-text text-primary me-2"></i>Keterangan</div>
-                        <textarea name="keterangan" class="form-control" rows="3" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
+                    <div class="card card-upload border-0 rounded-4 p-2">
+                        <div class="fw-semibold small mb-1"><i class="bi bi-card-text text-primary me-1"></i>Keterangan</div>
+                        <textarea name="keterangan" class="form-control form-control-sm" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-start mt-4">
-                <button type="submit" id="submitButton" class="btn btn-outline-success px-4">Simpan</button>
+            <div class="d-flex justify-content-start mt-2">
+                <button type="submit" id="submitButton" class="btn btn-outline-success px-2">Simpan</button>
             </div>
         </form>
     </div>
 </div>
 <style>
-    .selected { background-color: #d1fae5 !important; }
-    .baris-barang:hover { background-color: #f8fafc; }
+    .baris-barang:hover { background-color: #f6f9fe; }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -70,12 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const baris = document.querySelectorAll('.baris-barang');
     const searchBarang = document.getElementById('searchBarang');
-    const selectedInfo = document.getElementById('selectedInfo');
-    const duplicateWarn = document.getElementById('duplicateWarn');
-    const dupWarnText = document.getElementById('dupWarnText');
     const barangId = document.getElementById('barangId');
     const kategori = document.getElementById('kategori');
-    const selectedName = document.getElementById('selectedName');
 
     function pilihTipe(jenis) {
         tipe.value = jenis;
@@ -90,10 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function filterTable() {
         const q = searchBarang.value.trim().toLowerCase();
-        if (!q) {
-            baris.forEach(row => row.style.display = '');
-            return;
-        }
+        const cat = kategori.value.trim().toLowerCase();
 
         const isNumeric = /^\d+$/.test(q);
 
@@ -102,14 +89,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const nomor = row.dataset.no;
             const nama = row.dataset.nama.toLowerCase();
             const kode = row.dataset.kode.toLowerCase();
-            let match;
-            if (isNumeric) {
-                match = nomor === q;
-            } else {
-                match = nama.includes(q) || kode.includes(q);
+            const rowKategori = row.dataset.kategori.toLowerCase();
+
+            const matchKategori = !cat || rowKategori === cat;
+
+            let matchText = true;
+            if (q) {
+                if (isNumeric) {
+                    matchText = nomor === q;
+                } else {
+                    matchText = nama.includes(q) || kode.includes(q);
+                }
             }
-            row.style.display = match ? '' : 'none';
-            if (match) visible.push(row);
+
+            const show = matchKategori && matchText;
+            row.style.display = show ? '' : 'none';
+            if (show) visible.push(row);
         });
 
         if (visible.length === 1) {
@@ -122,8 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
         row.classList.add('selected');
 
         const id = row.dataset.id;
-        const nama = row.dataset.nama;
-        const kode = row.dataset.kode;
         const kat = row.dataset.kategori;
 
         barangId.value = id;
@@ -134,27 +127,10 @@ document.addEventListener('DOMContentLoaded', function() {
             kategori.add(o, undefined);
             kategori.value = kat;
         }
-
-        selectedInfo.classList.remove('d-none');
-        selectedName.textContent = nama + ' (' + kode + ')';
-
-        let dupCount = 0;
-        baris.forEach(r => {
-            if (r.dataset.nama.toLowerCase() === nama.toLowerCase() &&
-                r.dataset.kategori.toLowerCase() === kat.toLowerCase() && r !== row) {
-                dupCount++;
-            }
-        });
-
-        if (dupCount > 0) {
-            duplicateWarn.classList.remove('d-none');
-            dupWarnText.textContent = `Ada ${dupCount} barang lain dengan kategori "${kat}" dan nama "${nama}". Transaksi tetap bisa dilakukan.`;
-        } else {
-            duplicateWarn.classList.add('d-none');
-        }
     }
 
     searchBarang.addEventListener('input', filterTable);
+    kategori.addEventListener('change', filterTable);
 
     baris.forEach(row => {
         row.addEventListener('click', function() {
@@ -162,9 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    const jumlah = document.getElementById('jumlah');
-    document.getElementById('kurang').addEventListener('click', () => { jumlah.value = Math.max(1, Number(jumlah.value || 1) - 1); });
-    document.getElementById('tambahJumlah').addEventListener('click', () => { jumlah.value = Number(jumlah.value || 0) + 1; });
     submitButton.addEventListener('click', () => { submitButton.className = 'btn btn-success px-4'; });
 });
 </script>
