@@ -88,33 +88,31 @@ class TransaksiController extends Controller
 
     public function riwayat(Request $request)
     {
-        $bulan = $request->get('bulan', now()->format('Y-m'));
-        
-        // Ambil semua barang agar stok seluruhnya terlihat
-        $riwayat = Barang::all()->map(function ($barang) use ($bulan) {
-            // Ambil detail transaksi khusus barang ini di bulan tersebut
-            $details = DetailTransaksi::where('barang_id', $barang->id)
-                ->whereHas('transaksi', function($query) use ($bulan) {
-                    $query->whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$bulan]);
-                })
-                ->with('transaksi')
-                ->get();
+        $bulan = $request->get('bulan', 'all');
+        $date = $bulan !== 'all' ? \Illuminate\Support\Carbon::parse($bulan) : null;
 
-            $masuk = $details->where('transaksi.tipe', 'masuk')->sum('jumlah');
-            $keluar = $details->where('transaksi.tipe', 'keluar')->sum('jumlah');
-            
-            return (object) [
-                'nama_barang' => $barang->nama_barang,
-                'kategori' => $barang->kategori,
-                'masuk' => $masuk,
-                'keluar' => $keluar,
-                'sisa' => $barang->stok // Menampilkan seluruh stok saat ini
-            ];
-        });
+        $query = DB::table('detail_transaksis')
+            ->join('transaksis', 'transaksis.id', '=', 'detail_transaksis.transaksi_id')
+            ->join('barangs', 'barangs.id', '=', 'detail_transaksis.barang_id')
+            ->select(
+                'barangs.id as barang_id',
+                'barangs.nama_barang',
+                'barangs.kategori',
+                DB::raw("SUM(CASE WHEN transaksis.tipe = 'masuk' THEN detail_transaksis.jumlah ELSE 0 END) as total_masuk"),
+                DB::raw("SUM(CASE WHEN transaksis.tipe = 'keluar' THEN detail_transaksis.jumlah ELSE 0 END) as total_keluar")
+            )
+            ->groupBy('barangs.id', 'barangs.nama_barang', 'barangs.kategori');
 
-        $sumMasuk = $riwayat->sum('masuk');
-        $sumKeluar = $riwayat->sum('keluar');
+        if ($date) {
+            $query->whereMonth('transaksis.tanggal', $date->month)
+                  ->whereYear('transaksis.tanggal', $date->year);
+        }
 
-        return view('transaksi.riwayat', compact('riwayat', 'bulan', 'sumMasuk', 'sumKeluar'));
+        $details = $query->get();
+
+        $sumMasuk = $details->sum('total_masuk');
+        $sumKeluar = $details->sum('total_keluar');
+
+        return view('transaksi.riwayat', compact('details', 'bulan', 'sumMasuk', 'sumKeluar'));
     }
 }
