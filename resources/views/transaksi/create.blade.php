@@ -17,7 +17,7 @@
                 <div class="col-lg-4">
                     <div class="d-flex flex-column gap-4">
                         <div class="card card-info border-0 rounded-4 p-3">
-                            <div class="fw-semibold mb-4"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
+                            <div class="fw-semibold mb-2"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
                             <select id="kategori" name="kategori" class="form-select">
                                 <option value="">-- Pilih Kategori --</option>
                                 @php($cats = $barangs->pluck('kategori')->filter()->unique()->values())
@@ -25,6 +25,10 @@
                                     <option value="{{ $cat }}">{{ $cat }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="card card-info border-0 rounded-4 p-3">
+                            <div class="fw-semibold mb-2"><i class="bi bi-calendar text-primary me-2"></i>Tanggal</div>
+                            <input type="date" id="tanggal" name="tanggal" class="form-control" required>
                         </div>
                         <div class="d-flex gap-5">
                             <button type="button" id="btnMasuk" class="btn btn-masuk-soft px-5 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
@@ -34,12 +38,10 @@
                             <div class="fw-semibold mb-2"><i class="bi bi-calculator text-primary me-2"></i>Jumlah Stok</div>
                             <input id="jumlah" name="jumlah" type="number" class="form-control text-center" min="1" value="1" required>
                         </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="card card-upload border-0 rounded-4 p-2">
-                        <div class="fw-semibold small mb-1"><i class="bi bi-card-text text-primary me-1"></i>Keterangan</div>
-                        <textarea name="keterangan" class="form-control form-control-sm" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
+                        <div class="card card-upload border-0 rounded-4 p-2">
+                            <div class="fw-semibold small mb-1"><i class="bi bi-card-text text-primary me-1"></i>Keterangan</div>
+                            <textarea name="keterangan" class="form-control form-control-sm" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>

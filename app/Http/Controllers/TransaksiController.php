@@ -40,6 +40,7 @@ class TransaksiController extends Controller
             'tipe' => 'required|in:masuk,keluar',
             'barang_id' => 'required|exists:barangs,id',
             'jumlah' => 'required|numeric|min:1',
+            'tanggal' => 'required|date',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -53,7 +54,7 @@ class TransaksiController extends Controller
                 'user_id' => auth()->id(),
                 'kode_transaksi' => 'TRX-' . time(),
                 'tipe' => $request->tipe,
-                'tanggal' => now(),
+                'tanggal' => $request->tanggal,
                 'keterangan' => $request->keterangan,
             ]);
 
