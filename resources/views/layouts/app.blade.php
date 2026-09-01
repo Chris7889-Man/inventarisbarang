@@ -155,6 +155,16 @@
             background: #a7f3d0;
             color: #064e3b;
         }
+        /* Tombol putih netral */
+        .btn-neutral-white {
+            background: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+        .btn-neutral-white:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
         /* Warna soft untuk ikon kamera dan aksi kecil */
         .foto-action-icon {
             color: #64748b; /* abu-abu soft */
@@ -163,6 +173,45 @@
         .foto-action-icon:hover {
             color: #2563eb;
         }
+        /* ===== Tombol Kembali ===== */
+        .btn-return {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: .5rem;
+            padding: .5rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            color: #334155;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            transition: color .5s;
+        }
+        .btn-return .return-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #4ade80;
+            border-radius: .375rem;
+            width: 26px;
+            height: 26px;
+            transition: transform .5s;
+        }
+        .btn-return:hover { color: #fff; }
+        .btn-return:hover .return-icon { transform: translateX(4px); }
+        .btn-return::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 0;
+            background: #22c55e;
+            transition: width .5s;
+            z-index: 0;
+        }
+        .btn-return:hover::before { width: 100%; }
+        .btn-return > * { position: relative; z-index: 1; }
     </style>
 </head>
 <body style="font-size:{{ match(session('font_size')) { 'xs' => '12px', 'sm' => '14px', 'lg' => '18px', 'xl' => '21px', 'xxl' => '24px', default => '16px' } }}"><div class="app-shell"><aside id="sidebar" class="sidebar text-white"><div class="brand text-center p-4"><img src="/image.png" alt="Logo BPKP" class="img-fluid"><div class="mt-2 fw-semibold">Inventaris BPKP</div><small class="text-white-50">Sistem Manajemen Barang</small></div><nav class="p-3"><div class="nav-label px-2 mb-2">MENU UTAMA</div><a class="side-link {{ Request::is('transaksi') ? 'active' : '' }}" href="/transaksi"><i class="bi bi-list-task me-3"></i>Daftar Transaksi</a><a class="side-link {{ Request::is('barang*') ? 'active' : '' }}" href="/barang"><i class="bi bi-box-seam me-3"></i>Daftar Barang</a><a class="side-link {{ Request::is('transaksi/create') ? 'active' : '' }}" href="/transaksi/create"><i class="bi bi-arrow-left-right me-3"></i>Transaksi</a><a class="side-link {{ Request::is('riwayat') ? 'active' : '' }}" href="/riwayat"><i class="bi bi-clock-history me-3"></i>Riwayat</a><div class="nav-label px-2 mt-4 mb-2">SISTEM</div><a class="side-link {{ Request::is('setting') ? 'active' : '' }}" href="/setting"><i class="bi bi-gear me-3"></i>{{ __('app.settings') }}</a><form id="logoutForm" action="/logout" method="POST">@csrf</form><a class="side-link text-danger" href="#" onclick="event.preventDefault();document.getElementById('logoutForm').submit()"><i class="bi bi-box-arrow-left me-3"></i>Logout</a></nav></aside><section class="page"><header class="topbar d-flex align-items-center justify-content-between px-3 px-lg-4"><button id="menuToggle" class="menu-toggle btn btn-light border"><i class="bi bi-list fs-5"></i></button><div><h1 class="page-title">@yield('title', 'Inventaris Barang')</h1><div class="page-subtitle">Badan Pengawasan Keuangan dan Pembangunan</div></div><div class="d-flex align-items-center gap-2"><span class="d-none d-sm-inline text-end"><small class="d-block text-muted">{{ auth()->user()->role ?? 'Pengguna' }}</small><strong>{{ auth()->user()->name ?? 'Pengguna' }}</strong></span><span class="user-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}</span></div></header><main class="content">@yield('content')</main></section></div><style>

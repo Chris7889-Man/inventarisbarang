@@ -4,7 +4,10 @@
 <div class="card card-info">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Detail Barang</span>
-        <a href="/transaksi" class="btn btn-outline-secondary btn-sm">Kembali</a>
+        <a href="/transaksi" class="btn-return">
+            <span class="return-icon"><i class="bi bi-arrow-left"></i></span>
+            Kembali
+        </a>
     </div>
     <div class="card-body">
         <div class="row g-3">

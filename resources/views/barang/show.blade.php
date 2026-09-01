@@ -4,7 +4,10 @@
 <div class="card card-profil mx-auto" style="max-width:900px">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Detail Barang</span>
-        <a href="{{ route('barang.index') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Kembali</a>
+        <a href="{{ route('barang.index') }}" class="btn-return">
+            <span class="return-icon"><i class="bi bi-arrow-left"></i></span>
+            Kembali
+        </a>
     </div>
     <div class="card-body p-4">
         <div class="row g-4">

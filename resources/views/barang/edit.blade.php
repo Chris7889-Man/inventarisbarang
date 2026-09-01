@@ -20,8 +20,8 @@
                     </div>
                 </div>
                 <div class="d-flex gap-3 justify-content-between align-items-center">
-                    <button type="submit" class="btn btn-success-soft px-4">Update</button>
-                    <a href="{{ route('barang.index') }}" class="btn btn-outline-secondary rounded-pill px-4">Batal</a>
+                    <button type="submit" class="btn btn-neutral-white rounded px-4" onmouseover="this.classList.replace('btn-neutral-white', 'btn-success-soft')" onmouseout="this.classList.replace('btn-success-soft', 'btn-neutral-white')">Update</button>
+                    <a href="{{ route('barang.index') }}" class="btn btn-outline-secondary rounded px-4">Batal</a>
                 </div>
             </form>
         </div>
