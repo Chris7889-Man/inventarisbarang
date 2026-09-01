@@ -49,7 +49,7 @@
                     <div class="col-12">
                         <div class="card card-info p-3">
                             <small class="text-muted d-block mb-1">Tanggal</small>
-                            <strong class="fs-6">{{ $detail->created_at ? $detail->created_at->format('d/m/y H:i:s') : '-' }}</strong>
+                            <strong class="fs-6">{{ $detail->transaksi?->tanggal?->format('d/m/y H:i:s') ?? '-' }}</strong>
                         </div>
                     </div>
                 </div>

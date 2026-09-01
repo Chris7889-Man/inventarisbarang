@@ -11,7 +11,7 @@ class Transaksi extends Model
 
     protected $fillable = ['user_id', 'kode_transaksi', 'tipe', 'tanggal', 'keterangan'];
 
-    protected $casts = ['tanggal' => 'date'];
+    protected $casts = ['tanggal' => 'datetime'];
 
     public function details()
     {

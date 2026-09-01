@@ -12,7 +12,11 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        $details = DetailTransaksi::with(['transaksi.user', 'barang'])->oldest()->get();
+        $details = DetailTransaksi::with(['transaksi.user', 'barang'])
+            ->join('transaksis', 'transaksis.id', '=', 'detail_transaksis.transaksi_id')
+            ->orderBy('transaksis.tanggal', 'asc')
+            ->select('detail_transaksis.*')
+            ->get();
         return view('transaksi.index', compact('details'));
     }
 
@@ -40,37 +44,44 @@ class TransaksiController extends Controller
             'tipe' => 'required|in:masuk,keluar',
             'barang_id' => 'required|exists:barangs,id',
             'jumlah' => 'required|numeric|min:1',
-            'tanggal' => 'required|date',
+            'tanggal' => 'nullable|date',
         ]);
 
-        DB::transaction(function () use ($request) {
-            $barang = Barang::findOrFail($request->barang_id);
+        try {
+            DB::transaction(function () use ($request) {
+                $barang = Barang::findOrFail($request->barang_id);
 
-            if ($request->tipe == 'keluar' && $barang->stok < $request->jumlah) {
-                throw new \Exception('Stok tidak mencukupi');
-            }
+                if ($request->tanggal) {
+                    $tanggalTransaksi = \Illuminate\Support\Carbon::parse($request->tanggal)
+                        ->setTimeFrom(\Illuminate\Support\Carbon::now());
+                } else {
+                    $tanggalTransaksi = \Illuminate\Support\Carbon::now();
+                }
 
-            $transaksi = Transaksi::create([
-                'user_id' => auth()->id(),
-                'kode_transaksi' => 'TRX-' . time(),
-                'tipe' => $request->tipe,
-                'tanggal' => $request->tanggal,
-                'keterangan' => $request->keterangan,
-            ]);
+                $transaksi = Transaksi::create([
+                    'user_id' => auth()->id(),
+                    'kode_transaksi' => 'TRX-' . time(),
+                    'tipe' => $request->tipe,
+                    'tanggal' => $tanggalTransaksi,
+                    'keterangan' => $request->keterangan,
+                ]);
 
-            DetailTransaksi::create([
-                'transaksi_id' => $transaksi->id,
-                'barang_id' => $barang->id,
-                'jumlah' => $request->jumlah,
-                'harga_satuan' => $barang->harga,
-            ]);
+                DetailTransaksi::create([
+                    'transaksi_id' => $transaksi->id,
+                    'barang_id' => $barang->id,
+                    'jumlah' => $request->jumlah,
+                    'harga_satuan' => $barang->harga,
+                ]);
 
-            if ($request->tipe == 'masuk') {
-                $barang->increment('stok', $request->jumlah);
-            } else {
-                $barang->decrement('stok', $request->jumlah);
-            }
-        });
+                if ($request->tipe == 'masuk') {
+                    $barang->increment('stok', $request->jumlah);
+                } else {
+                    $barang->decrement('stok', $request->jumlah);
+                }
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
 
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibuat');
     }

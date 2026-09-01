@@ -28,7 +28,8 @@
                         </div>
                         <div class="card card-info border-0 rounded-4 p-3">
                             <div class="fw-semibold mb-2"><i class="bi bi-calendar text-primary me-2"></i>Tanggal</div>
-                            <input type="date" id="tanggal" name="tanggal" class="form-control" required>
+                            <input type="date" id="tanggal" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}">
+                            <small class="text-muted mt-1">Kosongkan untuk tanggal & jam server otomatis.</small>
                         </div>
                         <div class="d-flex gap-5">
                             <button type="button" id="btnMasuk" class="btn btn-masuk-soft px-5 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
@@ -53,6 +54,12 @@
 </div>
 <style>
     .baris-barang:hover { background-color: #f6f9fe; }
+    #tabelBarang { font-size: .875rem; }
+    #tabelBarang thead th { padding: .5rem .75rem; }
+    #tabelBarang tbody td { padding: .45rem .75rem; }
+    #tabelBarang th:nth-child(1) { width: 60px; }
+    #tabelBarang th:nth-child(2) { width: 55%; }
+    #tabelBarang th:nth-child(3) { width: 30%; }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -148,5 +155,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     submitButton.addEventListener('click', () => { submitButton.className = 'btn btn-success px-4'; });
 });
+    </script>
+
+@if (session('error'))
+<div class="modal fade" id="errorModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title mb-0">⚠️ Peringatan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">{{ session('error') }}</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Coba Lagi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new bootstrap.Modal(document.getElementById('errorModal')).show();
+    });
 </script>
+@endif
+
 @endsection
