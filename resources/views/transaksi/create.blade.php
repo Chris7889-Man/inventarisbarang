@@ -15,59 +15,25 @@
         <form method="POST" action="/transaksi" id="formTransaksi">
             @csrf
             <input id="tipe" name="tipe" type="hidden" value="masuk">
-            <div class="row g-4">
+            <div class="row g-4 align-items-start">
                 <div class="col-lg-5">
-                    <div class="card card-profil border-0 rounded-4 p-3 h-100">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="fw-semibold"><i class="bi bi-list-check text-primary me-2"></i>Daftar Barang</div>
-                            <div class="btn-group btn-group-sm" id="searchMode">
-                                <button type="button" class="btn btn-outline-primary active" data-mode="kode">Nomor</button>
-                                <button type="button" class="btn btn-outline-primary" data-mode="nama">Nama</button>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-                            <input type="text" id="searchBarang" class="form-control border-start-0" placeholder="Cari barang...">
-                            <input type="hidden" id="barangId" name="barang_id">
-                        </div>
-                        <div style="max-height:250px;overflow-y:auto" class="border rounded-4 bg-white">
-                            <table class="table table-sm table-hover mb-0 align-middle" id="tabelBarang">
-                                <thead class="position-sticky top-0 bg-white z-10">
-                                    <tr>
-                                        <th class="text-center py-2" style="width:70px">Nomor</th>
-                                        <th class="py-2">Nama Barang</th>
-                                        <th class="py-2">Kategori</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($barangs as $i => $b)
-                                    <tr class="baris-barang" data-id="{{ $b->id }}" data-no="{{ $i + 1 }}" data-nama="{{ $b->nama_barang }}" data-kode="{{ $b->kode_barang }}" data-kategori="{{ $b->kategori }}" style="cursor:pointer">
-                                        <td class="text-center text-muted fw-semibold">{{ $i + 1 }}</td>
-                                        <td>
-                                            <small class="text-muted d-none">{{ $b->kode_barang }}</small>
-                                            <div class="fw-semibold">{{ $b->nama_barang }}</div>
-                                        </td>
-                                        <td><span class="badge bg-light text-dark">{{ $b->kategori ?? '-' }}</span></td>
-                                    </tr>
-                                    @empty
-                                    <tr><td colspan="3" class="text-muted text-center py-3">Belum ada data barang.</td></tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                        <small id="selectedInfo" class="text-muted mt-2 d-none"><i class="bi bi-check-circle-fill text-success me-1"></i>Barang terpilih: <strong id="selectedName"></strong></small>
-                        <small id="duplicateWarn" class="text-warning mt-2 d-none"><i class="bi bi-exclamation-triangle me-1"></i><span id="dupWarnText"></span></small>
-                    </div>
+                    @include('components.tabel-barang', ['barangs' => $barangs])
                 </div>
                 <div class="col-lg-3">
-                    <div class="card card-info border-0 rounded-4 p-3 h-100">
+                    <div class="card card-info border-0 rounded-4 p-3">
                         <div class="fw-semibold mb-3"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
                         <label class="form-label">Kategori</label>
-                        <input id="kategori" class="form-control" readonly placeholder="Otomatis mengikuti barang">
+                        <select id="kategori" name="kategori" class="form-select">
+                            <option value="">-- Pilih Kategori --</option>
+                            @php($cats = $barangs->pluck('kategori')->filter()->unique()->values())
+                            @foreach($cats as $cat)
+                                <option value="{{ $cat }}">{{ $cat }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="card card-input border-0 rounded-4 p-3 h-100">
+                     <div class="card card-input border-0 rounded-4 p-3">
                         <div class="fw-semibold mb-3"><i class="bi bi-calculator text-primary me-2"></i>Jumlah Transaksi</div>
                         <label class="form-label">Jumlah</label>
                         <div class="input-group">
@@ -104,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const baris = document.querySelectorAll('.baris-barang');
     const searchBarang = document.getElementById('searchBarang');
-    const searchMode = document.getElementById('searchMode');
     const selectedInfo = document.getElementById('selectedInfo');
     const duplicateWarn = document.getElementById('duplicateWarn');
     const dupWarnText = document.getElementById('dupWarnText');
@@ -125,56 +90,75 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function filterTable() {
         const q = searchBarang.value.trim().toLowerCase();
-        const mode = searchMode.querySelector('.active').dataset.mode;
-        
+        if (!q) {
+            baris.forEach(row => row.style.display = '');
+            return;
+        }
+
+        const isNumeric = /^\d+$/.test(q);
+
+        let visible = [];
         baris.forEach(row => {
-            const kode = row.dataset.kode.toLowerCase();
+            const nomor = row.dataset.no;
             const nama = row.dataset.nama.toLowerCase();
-            let match = mode === 'kode' ? kode.includes(q) : nama.includes(q);
+            const kode = row.dataset.kode.toLowerCase();
+            let match;
+            if (isNumeric) {
+                match = nomor === q;
+            } else {
+                match = nama.includes(q) || kode.includes(q);
+            }
             row.style.display = match ? '' : 'none';
+            if (match) visible.push(row);
         });
+
+        if (visible.length === 1) {
+            selectRow(visible[0]);
+        }
     }
 
-    searchMode.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', function() {
-            searchMode.querySelector('.active').classList.remove('active');
-            this.classList.add('active');
-            filterTable();
+    function selectRow(row) {
+        baris.forEach(r => r.classList.remove('selected'));
+        row.classList.add('selected');
+
+        const id = row.dataset.id;
+        const nama = row.dataset.nama;
+        const kode = row.dataset.kode;
+        const kat = row.dataset.kategori;
+
+        barangId.value = id;
+        kategori.value = kat;
+
+        if (kategori.value !== kat) {
+            const o = new Option(kat, kat, true, true);
+            kategori.add(o, undefined);
+            kategori.value = kat;
+        }
+
+        selectedInfo.classList.remove('d-none');
+        selectedName.textContent = nama + ' (' + kode + ')';
+
+        let dupCount = 0;
+        baris.forEach(r => {
+            if (r.dataset.nama.toLowerCase() === nama.toLowerCase() &&
+                r.dataset.kategori.toLowerCase() === kat.toLowerCase() && r !== row) {
+                dupCount++;
+            }
         });
-    });
+
+        if (dupCount > 0) {
+            duplicateWarn.classList.remove('d-none');
+            dupWarnText.textContent = `Ada ${dupCount} barang lain dengan kategori "${kat}" dan nama "${nama}". Transaksi tetap bisa dilakukan.`;
+        } else {
+            duplicateWarn.classList.add('d-none');
+        }
+    }
 
     searchBarang.addEventListener('input', filterTable);
 
     baris.forEach(row => {
         row.addEventListener('click', function() {
-            baris.forEach(r => r.classList.remove('selected'));
-            this.classList.add('selected');
-
-            const id = this.dataset.id;
-            const nama = this.dataset.nama;
-            const kode = this.dataset.kode;
-            const kat = this.dataset.kategori;
-
-            barangId.value = id;
-            kategori.value = kat;
-
-            selectedInfo.classList.remove('d-none');
-            selectedName.textContent = nama + ' (' + kode + ')';
-
-            let dupCount = 0;
-            baris.forEach(r => {
-                if (r.dataset.nama.toLowerCase() === nama.toLowerCase() && 
-                    r.dataset.kategori.toLowerCase() === kat.toLowerCase() && r !== this) {
-                    dupCount++;
-                }
-            });
-
-            if (dupCount > 0) {
-                duplicateWarn.classList.remove('d-none');
-                dupWarnText.textContent = `Ada ${dupCount} barang lain dengan kategori "${kat}" dan nama "${nama}". Transaksi tetap bisa dilakukan.`;
-            } else {
-                duplicateWarn.classList.add('d-none');
-            }
+            selectRow(this);
         });
     });
 
