@@ -15,9 +15,9 @@
                     @include('components.tabel-barang', ['barangs' => $barangs])
                 </div>
                 <div class="col-lg-4">
-                    <div class="d-flex flex-column gap-3">
+                    <div class="d-flex flex-column gap-4">
                         <div class="card card-info border-0 rounded-4 p-3">
-                            <div class="fw-semibold mb-2"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
+                            <div class="fw-semibold mb-4"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
                             <select id="kategori" name="kategori" class="form-select">
                                 <option value="">-- Pilih Kategori --</option>
                                 @php($cats = $barangs->pluck('kategori')->filter()->unique()->values())
@@ -26,12 +26,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="card border-0 rounded-4 p-3">
-                            <div class="fw-semibold mb-2"><i class="bi bi-arrow-left-right text-primary me-2"></i>Jenis Transaksi</div>
-                            <div class="d-flex gap-2">
-                                <button type="button" id="btnMasuk" class="btn btn-success px-3 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
-                                <button type="button" id="btnKeluar" class="btn btn-outline-warning px-3"><i class="bi bi-arrow-up-short me-1"></i>Keluar</button>
-                            </div>
+                        <div class="d-flex gap-5">
+                            <button type="button" id="btnMasuk" class="btn btn-masuk-soft px-5 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
+                            <button type="button" id="btnKeluar" class="btn btn-soft-netral px-5 ms-6"><i class="bi bi-arrow-up-short me-1"></i>Keluar</button>
                         </div>
                         <div class="card card-input border-0 rounded-4 p-3">
                             <div class="fw-semibold mb-2"><i class="bi bi-calculator text-primary me-2"></i>Jumlah Stok</div>
@@ -61,48 +58,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnMasuk = document.getElementById('btnMasuk');
     const btnKeluar = document.getElementById('btnKeluar');
     const submitButton = document.getElementById('submitButton');
-    
+
     const baris = document.querySelectorAll('.baris-barang');
     const searchBarang = document.getElementById('searchBarang');
     const barangId = document.getElementById('barangId');
     const kategori = document.getElementById('kategori');
+    let kategoriFiltered = false;
 
     function pilihTipe(jenis) {
         tipe.value = jenis;
+        localStorage.setItem('tipeTransaksi', jenis);
         const masuk = jenis === 'masuk';
-        btnMasuk.className = masuk ? 'btn btn-success px-4 active' : 'btn btn-outline-success px-4';
-        btnKeluar.className = masuk ? 'btn btn-outline-warning px-4' : 'btn btn-warning px-4 active';
-        submitButton.className = 'btn btn-secondary px-4 text-white';
+        btnMasuk.className = masuk ? 'btn btn-masuk-soft px-5 active' : 'btn btn-soft-netral px-5';
+        btnKeluar.className = masuk ? 'btn btn-soft-netral px-5 ms-6' : 'btn btn-keluar-soft px-5 ms-6 active';
+        submitButton.className = 'btn btn-secondary px-5 text-white';
         submitButton.innerHTML = masuk ? '<i class="bi bi-check-circle me-1"></i>Simpan Barang Masuk' : '<i class="bi bi-check-circle me-1"></i>Simpan Barang Keluar';
     }
+    const savedTipe = localStorage.getItem('tipeTransaksi');
+    if (savedTipe === 'masuk' || savedTipe === 'keluar') pilihTipe(savedTipe);
     btnMasuk.addEventListener('click', () => pilihTipe('masuk'));
     btnKeluar.addEventListener('click', () => pilihTipe('keluar'));
 
     function filterTable() {
         const q = searchBarang.value.trim().toLowerCase();
-        const cat = kategori.value.trim().toLowerCase();
-
         const isNumeric = /^\d+$/.test(q);
+        const catFilter = kategoriFiltered ? kategori.value.trim().toLowerCase() : '';
 
         let visible = [];
         baris.forEach(row => {
             const nomor = row.dataset.no;
             const nama = row.dataset.nama.toLowerCase();
             const kode = row.dataset.kode.toLowerCase();
-            const rowKategori = row.dataset.kategori.toLowerCase();
+            const rowKat = (row.dataset.kategori || '').toLowerCase();
+            const rowNamaKode = nama.includes(q) || kode.includes(q);
 
-            const matchKategori = !cat || rowKategori === cat;
+            const matchCat = !catFilter || rowKat === catFilter;
 
             let matchText = true;
             if (q) {
                 if (isNumeric) {
                     matchText = nomor === q;
                 } else {
-                    matchText = nama.includes(q) || kode.includes(q);
+                    matchText = rowNamaKode;
                 }
             }
 
-            const show = matchKategori && matchText;
+            const show = matchCat && matchText;
             row.style.display = show ? '' : 'none';
             if (show) visible.push(row);
         });
@@ -120,6 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const kat = row.dataset.kategori;
 
         barangId.value = id;
+
+        kategoriFiltered = false;
         kategori.value = kat;
 
         if (kategori.value !== kat) {
@@ -130,7 +133,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     searchBarang.addEventListener('input', filterTable);
-    kategori.addEventListener('change', filterTable);
+    kategori.addEventListener('change', function() {
+        kategoriFiltered = !!kategori.value;
+        filterTable();
+    });
 
     baris.forEach(row => {
         row.addEventListener('click', function() {

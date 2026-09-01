@@ -5,9 +5,9 @@
         <input type="text" id="searchBarang" class="form-control border-start-0" placeholder="Cari barang...">
         <input type="hidden" id="barangId" name="barang_id">
     </div>
-    <div class="table-responsive border rounded-4 bg-white">
+    <div class="table-responsive border rounded-4 bg-white" style="height: 220px; overflow-y: auto;">
         <table class="table table-hover table-bordered-soft mb-0 text-center align-middle" id="tabelBarang">
-            <thead>
+            <thead class="position-sticky top-0 bg-white z-10">
                 <tr>
                     <th>No</th>
                     <th>Nama Barang</th>

@@ -80,6 +80,43 @@
         .btn-warning:hover{background:#d97706;color:#fff}
         .btn-outline-warning{border:1px solid #f59e0b;color:#b45309}
         .btn-outline-warning:hover{background:#f59e0b;color:#1c1917}
+        .btn-keluar-soft {
+            border: 1px solid #fef3c7;
+            color: #92400e;
+            background: #fffbeb;
+        }
+        .btn-keluar-soft:hover {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .btn-keluar-soft.active {
+            background: #fef3c7;
+            color: #78350f;
+            border-color: #fde68a;
+        }
+        .btn-masuk-soft {
+            border: 1px solid #dcfce7;
+            color: #14532d;
+            background: #f0fdf4;
+        }
+        .btn-masuk-soft:hover {
+            background: #dcfce7;
+            color: #14532d;
+        }
+        .btn-masuk-soft.active {
+            background: #bbf7d0;
+            color: #14532d;
+            border-color: #86efac;
+        }
+        .btn-soft-netral {
+            border: 1px solid #f1f5f9;
+            color: #64748b;
+            background: #f8fafc;
+        }
+        .btn-soft-netral:hover {
+            background: #eef2f7;
+            color: #475569;
+        }
         .table thead th{
             background:#f1f5f9;
             color:#475569;
