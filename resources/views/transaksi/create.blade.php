@@ -1,6 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Transaksi Barang')
 @section('content')
+<style>
+.create-transaksi-page .card-ringkas,
+.create-transaksi-page .card-info,
+.create-transaksi-page .card-input,
+.create-transaksi-page .card-upload,
+.create-transaksi-page .card-profil {
+    background: #fff !important;
+    border-color: #e2e8f0 !important;
+}
+</style>
+<div class="create-transaksi-page">
 <div class="card card-ringkas border-0 shadow-sm">
     <div class="card-header bg-white py-1">
         <h6 class="mb-0 fw-bold">Transaksi Barang</h6>
@@ -43,20 +54,18 @@
                             <div class="fw-semibold small mb-1"><i class="bi bi-card-text text-primary me-1"></i>Keterangan</div>
                             <textarea name="keterangan" class="form-control form-control-sm" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
                         </div>
+                        <button type="submit" id="submitButton" class="animated-button w-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+                                <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                            </svg>
+                            <span class="text">SIMPAN</span>
+                            <span class="circle"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+                                <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-start mt-3">
-                <button type="submit" id="submitButton" class="animated-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
-                        <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-                    </svg>
-                    <span class="text">SIMPAN</span>
-                    <span class="circle"></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
-                        <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-                    </svg>
-                </button>
             </div>
         </form>
     </div>
@@ -70,20 +79,24 @@
     #tabelBarang th:nth-child(2) { width: 55%; }
     #tabelBarang th:nth-child(3) { width: 30%; }
 
+    .animated-button.w-100 { justify-content: center; }
+
+    @media (max-width: 991.98px) {
+        .card-tabel-list { height: 60vh; }
+    }
+
     .animated-button {
       position: relative;
       display: flex;
       align-items: center;
       gap: 4px;
       padding: 8px 16px;
-      border: 3px solid;
-      border-color: transparent;
+      border: 1px solid #f0eadd;
       font-size: 12px;
-      background-color: #f0fdf4;
+      background-color: #ffffff;
       border-radius: 100px;
       font-weight: 600;
       color: #14532d;
-      box-shadow: 0 0 0 2px #ffffff;
       cursor: pointer;
       overflow: hidden;
       transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
@@ -112,7 +125,7 @@
       transform: translate(-50%, -50%);
       width: 20px;
       height: 20px;
-      background-color: #bbf7d0;
+      background-color: #f0fdf4;
       border-radius: 50%;
       opacity: 0;
       transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
@@ -152,11 +165,12 @@
       box-shadow: 0 0 0 4px #86efac;
     }
 
-    .animated-button:hover .circle {
-      width: 220px;
-      height: 220px;
-      opacity: 1;
-    }
+    .animated-button:hover .circle { width: 200%; height: 200%; opacity: 1; }
+    
+    .animated-button.tipe-keluar .circle { background-color: #fffbeb; }
+    .animated-button.tipe-keluar:hover { color: #92400e; }
+    .animated-button.tipe-keluar:hover svg { fill: #92400e; }
+    .animated-button.tipe-keluar:active { box-shadow: 0 0 0 4px #fffbeb; }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -181,6 +195,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (txtSpan) {
             txtSpan.textContent = masuk ? 'SIMPAN MASUK' : 'SIMPAN KELUAR';
         }
+        submitButton.classList.toggle('tipe-keluar', !masuk);
+        submitButton.classList.toggle('tipe-masuk', masuk);
     }
     const savedTipe = localStorage.getItem('tipeTransaksi');
     if (savedTipe === 'masuk' || savedTipe === 'keluar') pilihTipe(savedTipe);
@@ -276,4 +292,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 @endif
 
+</div>
 @endsection

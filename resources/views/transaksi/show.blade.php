@@ -16,8 +16,9 @@
 }
 .detail-transaksi-page tr.row-aktif-masuk td { background-color: #f0fdf4 !important; }
 .detail-transaksi-page tr.row-aktif-keluar td { background-color: #fffbeb !important; }
+.detail-transaksi-page .card-riwayat { background: #FAF6F0 !important; border: 1px solid #f0eadd !important; }
 </style>
-<div class="detail-transaksi-page mx-auto" style="max-width: 900px;">
+<div class="detail-transaksi-page mx-auto" style="max-width: 800px;">
 <div class="card card-info">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Detail Barang</span>
@@ -74,7 +75,7 @@
         </div>
     </div>
 </div>
-<div class="card card-info mt-4">
+<div class="card card-ringkas card-riwayat mt-4">
     <div class="card-header">Riwayat Transaksi Barang</div>
     <div class="table-responsive" style="max-height: 240px; overflow-y: auto;">
         <table class="table table-sm table-hover table-bordered-soft mb-0 text-center align-middle">
