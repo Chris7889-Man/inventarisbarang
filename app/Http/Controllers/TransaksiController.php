@@ -23,7 +23,16 @@ class TransaksiController extends Controller
     public function show($id)
     {
         $detail = DetailTransaksi::with(['transaksi.user', 'barang'])->findOrFail($id);
-        return view('transaksi.show', compact('detail'));
+
+        $riwayat = DetailTransaksi::with(['transaksi.user', 'barang'])
+            ->where('barang_id', $detail->barang_id)
+            ->join('transaksis', 'transaksis.id', '=', 'detail_transaksis.transaksi_id')
+            ->orderBy('transaksis.tanggal', 'asc')
+            ->orderByDesc('detail_transaksis.id')
+            ->select('detail_transaksis.*')
+            ->get();
+
+        return view('transaksi.show', compact('detail', 'riwayat'));
     }
 
     public function create()
@@ -112,7 +121,8 @@ class TransaksiController extends Controller
 
         $sumMasuk = $details->sum('total_masuk');
         $sumKeluar = $details->sum('total_keluar');
+        $sumTotal = $sumMasuk + $sumKeluar;
 
-        return view('transaksi.riwayat', compact('details', 'bulan', 'sumMasuk', 'sumKeluar'));
+        return view('transaksi.riwayat', compact('details', 'bulan', 'sumMasuk', 'sumKeluar', 'sumTotal'));
     }
 }

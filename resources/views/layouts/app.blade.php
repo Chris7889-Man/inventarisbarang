@@ -174,6 +174,14 @@
             border: 1px solid #f0eadd;
             transition: all .3s ease;
         }
+        .card-masuk-soft {
+            background: #f0fdf4 !important;
+            border: 1px solid #dcfce7 !important;
+        }
+        .card-keluar-soft {
+            background: #fffbeb !important;
+            border: 1px solid #fef3c7 !important;
+        }
         .card-profil:hover, .card-input:hover, .card-upload:hover, .card-info:hover, .card-ringkas:hover,
         .card-profil:focus-within, .card-input:focus-within, .card-upload:focus-within, .card-info:focus-within, .card-ringkas:focus-within,
         .card-profil.active-card, .card-input.active-card, .card-upload.active-card, .card-info.active-card, .card-ringkas.active-card {
