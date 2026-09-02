@@ -31,8 +31,8 @@
                     </td>
                     <td>{{ $detail->barang->nama_barang ?? '-' }}</td>
                     <td class="d-none d-md-table-cell">{{ $detail->barang->kategori ?? '-' }}</td>
-                    <td class="fw-bold text-success">{{ ($detail->transaksi && $detail->transaksi->tipe == 'masuk') ? $detail->jumlah : 0 }}</td>
-                    <td class="fw-bold text-danger">{{ ($detail->transaksi && $detail->transaksi->tipe == 'keluar') ? $detail->jumlah : 0 }}</td>
+                    <td class="fw-bold" style="color:#1f7a3d">{{ ($detail->transaksi && $detail->transaksi->tipe == 'masuk') ? $detail->jumlah : 0 }}</td>
+                    <td class="fw-bold" style="color:#92400e">{{ ($detail->transaksi && $detail->transaksi->tipe == 'keluar') ? $detail->jumlah : 0 }}</td>
                     <td class="d-none d-sm-table-cell">{{ $detail->transaksi?->tanggal?->format('d/m/y') ?? '-' }}</td>
                     <td class="d-none d-md-table-cell">{{ $detail->transaksi?->created_at?->format('H:i:s') ?? '-' }}</td>
                     <td>
