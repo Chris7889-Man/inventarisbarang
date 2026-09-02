@@ -29,8 +29,8 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $detail->nama_barang ?? '-' }}</td>
                     <td>{{ $detail->kategori ?? '-' }}</td>
-                    <td class="fw-bold text-success">{{ $detail->total_masuk }}</td>
-                    <td class="fw-bold text-danger">{{ $detail->total_keluar }}</td>
+                    <td class="fw-bold" style="color:#1f7a3d">{{ $detail->total_masuk }}</td>
+                    <td class="fw-bold" style="color:#92400e">{{ $detail->total_keluar }}</td>
                     <td class="fw-bold">{{ $detail->total_masuk + $detail->total_keluar }}</td>
                     <td>
                         <a href="/barang/{{ $detail->barang_id }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
@@ -43,8 +43,8 @@
             <tfoot>
                 <tr class="fw-bold table-light">
                     <td colspan="3" class="text-start py-2">SUM TOTAL:</td>
-                    <td class="text-success py-2">{{ $sumMasuk }}</td>
-                    <td class="text-danger py-2">{{ $sumKeluar }}</td>
+                    <td class="py-2" style="color:#1f7a3d">{{ $sumMasuk }}</td>
+                    <td class="py-2" style="color:#92400e">{{ $sumKeluar }}</td>
                     <td class="fw-bold py-2">{{ $sumTotal }}</td>
                     <td class="py-2">-</td>
                 </tr>

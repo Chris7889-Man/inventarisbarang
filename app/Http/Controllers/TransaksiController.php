@@ -32,7 +32,18 @@ class TransaksiController extends Controller
             ->select('detail_transaksis.*')
             ->get();
 
-        return view('transaksi.show', compact('detail', 'riwayat'));
+        $semua = DetailTransaksi::with(['transaksi.user', 'barang'])
+            ->join('transaksis', 'transaksis.id', '=', 'detail_transaksis.transaksi_id')
+            ->orderBy('transaksis.tanggal', 'asc')
+            ->select('detail_transaksis.*')
+            ->get();
+
+        $nomorMap = [];
+        foreach ($semua as $i => $dt) {
+            $nomorMap[$dt->id] = $i + 1;
+        }
+
+        return view('transaksi.show', compact('detail', 'riwayat', 'nomorMap'));
     }
 
     public function create()

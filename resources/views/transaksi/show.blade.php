@@ -91,13 +91,13 @@
             <tbody>
                 @forelse($riwayat as $index => $item)
                 <tr class="{{ $detail->id == $item->id ? $activeRowClass : '' }}">
-                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $nomorMap[$item->id] ?? $index + 1 }}</td>
                     <td>{{ $item->barang->nama_barang ?? '-' }}</td>
                     <td>
                         @if($item->transaksi?->tipe == 'masuk')
-                            <span class="badge text-bg-success">Masuk</span>
+                            <span class="badge bg-success-subtle text-success-emphasis">Masuk</span>
                         @elseif($item->transaksi?->tipe == 'keluar')
-                            <span class="badge text-bg-danger">Keluar</span>
+                            <span class="badge bg-warning-subtle text-warning-emphasis">Keluar</span>
                         @else
                             -
                         @endif
