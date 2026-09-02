@@ -4,6 +4,7 @@
 @php
     $tipe = $detail->transaksi->tipe ?? '';
     $statusClass = ($tipe == 'masuk') ? 'card-masuk-soft' : (($tipe == 'keluar') ? 'card-keluar-soft' : '');
+    $activeRowClass = ($tipe == 'masuk') ? 'row-aktif-masuk' : 'row-aktif-keluar';
 @endphp
 <style>
 .detail-transaksi-page .card-profil,
@@ -13,8 +14,10 @@
     background: #fff !important;
     border-color: #e2e8f0 !important;
 }
+.detail-transaksi-page tr.row-aktif-masuk td { background-color: #f0fdf4 !important; }
+.detail-transaksi-page tr.row-aktif-keluar td { background-color: #fffbeb !important; }
 </style>
-<div class="detail-transaksi-page">
+<div class="detail-transaksi-page mx-auto" style="max-width: 900px;">
 <div class="card card-info">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Detail Barang</span>
@@ -87,7 +90,7 @@
             </thead>
             <tbody>
                 @forelse($riwayat as $index => $item)
-                <tr>
+                <tr class="{{ $detail->id == $item->id ? $activeRowClass : '' }}">
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $item->barang->nama_barang ?? '-' }}</td>
                     <td>
