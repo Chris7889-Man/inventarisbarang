@@ -1,7 +1,18 @@
 @extends('layouts.app')
 @section('title', 'Detail Barang')
 @section('content')
-<div class="card card-profil mx-auto" style="max-width:900px">
+<style>
+.detail-barang-page .card-profil,
+.detail-barang-page .card-input,
+.detail-barang-page .card-ringkas,
+.detail-barang-page .card-info,
+.detail-barang-page .card-upload {
+    background: #fff !important;
+    border-color: #e2e8f0 !important;
+}
+</style>
+<div class="detail-barang-page mx-auto" style="max-width: 800px;">
+<div class="card card-info">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Detail Barang</span>
         <a href="{{ route('barang.index') }}" class="btn-return">
@@ -9,8 +20,8 @@
             Kembali
         </a>
     </div>
-    <div class="card-body p-4">
-        <div class="row g-4">
+    <div class="card-body">
+        <div class="row g-3">
             <div class="col-md-4 text-center">
                 @if($barang->foto)
                     <img src="{{ asset('storage/' . $barang->foto) }}" class="img-fluid rounded-4 shadow-sm" alt="Foto {{ $barang->nama_barang }}">
@@ -23,13 +34,13 @@
             <div class="col-md-8">
                 <div class="row g-3">
                     <div class="col-sm-6">
-                        <div class="card card-input p-3 h-100">
+                        <div class="card card-profil p-3 h-100">
                             <small class="text-muted d-block mb-1">Nama Barang</small>
                             <strong class="fs-6">{{ $barang->nama_barang }}</strong>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="card card-info p-3 h-100">
+                        <div class="card card-input p-3 h-100">
                             <small class="text-muted d-block mb-1">Kategori</small>
                             <strong class="fs-6">{{ $barang->kategori ?? '-' }}</strong>
                         </div>
@@ -37,7 +48,7 @@
                     <div class="col-sm-6">
                         <div class="card card-ringkas p-3 h-100">
                             <small class="text-muted d-block mb-1">Tanggal Input</small>
-                            <strong class="fs-6">{{ $barang->created_at?->format('d/m/y') ?? '-' }}</strong>
+                            <strong class="fs-6">{{ strtolower($barang->created_at?->translatedFormat('d/m/y | F') ?? '-') }}</strong>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -47,7 +58,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card card-profil p-3">
+                        <div class="card card-info p-3">
                             <small class="text-muted d-block mb-1">Keterangan</small>
                             <strong class="fs-6">{{ $barang->deskripsi ?? '-' }}</strong>
                         </div>
@@ -56,5 +67,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

@@ -67,7 +67,11 @@
                     <div class="col-12">
                         <div class="card card-info p-3">
                             <small class="text-muted d-block mb-1">Tanggal</small>
-                            <strong class="fs-6">{{ $detail->transaksi?->tanggal?->format('d/m/y') }} | {{ $detail->transaksi?->created_at?->format('H:i:s') ?? '-' }}</strong>
+                            @php
+                                $tgl = $detail->transaksi?->tanggal;
+                                $waktu = $detail->transaksi?->created_at;
+                            @endphp
+                            <strong class="fs-6">{{ $tgl?->format('d/m/y') }} | {{ strtolower(($tgl ?? $waktu)?->translatedFormat('F') ?? '-') }} | {{ $waktu?->format('H:i:s') ?? '-' }}</strong>
                         </div>
                     </div>
                 </div>

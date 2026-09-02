@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="d-flex flex-column gap-4">
-                        <div class="card card-info border-0 rounded-4 p-3">
+                        <div class="card card-info border-0 rounded-4 p-3 card-circle-outline">
                             <div class="fw-semibold mb-2"><i class="bi bi-tags text-primary me-2"></i>Kategori</div>
                             <select id="kategori" name="kategori" class="form-select">
                                 <option value="">-- Pilih Kategori --</option>
@@ -37,7 +37,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="card card-info border-0 rounded-4 p-3">
+                        <div class="card card-info border-0 rounded-4 p-3 card-circle-outline">
                             <div class="fw-semibold mb-2"><i class="bi bi-calendar text-primary me-2"></i>Tanggal</div>
                             <input type="date" id="tanggal" name="tanggal" class="form-control" value="{{ now()->format('Y-m-d') }}">
                             <small class="text-muted mt-1">Kosongkan untuk tanggal & jam server otomatis.</small>
@@ -46,11 +46,11 @@
                             <button type="button" id="btnMasuk" class="btn btn-masuk-soft px-5 active"><i class="bi bi-arrow-down-short me-1"></i>Masuk</button>
                             <button type="button" id="btnKeluar" class="btn btn-soft-netral px-5 ms-6"><i class="bi bi-arrow-up-short me-1"></i>Keluar</button>
                         </div>
-                        <div class="card card-input border-0 rounded-4 p-3">
+                        <div class="card card-input border-0 rounded-4 p-3 card-circle-outline">
                             <div class="fw-semibold mb-2"><i class="bi bi-calculator text-primary me-2"></i>Jumlah Stok</div>
                             <input id="jumlah" name="jumlah" type="number" class="form-control text-center" min="1" value="1" required>
                         </div>
-                        <div class="card card-upload border-0 rounded-4 p-2">
+                        <div class="card card-upload border-0 rounded-4 p-2 card-circle-outline">
                             <div class="fw-semibold small mb-1"><i class="bi bi-card-text text-primary me-1"></i>Keterangan</div>
                             <textarea name="keterangan" class="form-control form-control-sm" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
                         </div>
@@ -80,6 +80,11 @@
     #tabelBarang th:nth-child(3) { width: 30%; }
 
     .animated-button.w-100 { justify-content: center; }
+
+    .card-circle-outline {
+        border-radius: 1rem !important;
+        border: 1px solid #f0eadd !important;
+    }
 
     @media (max-width: 991.98px) {
         .card-tabel-list { height: 60vh; }
@@ -171,7 +176,8 @@
     .animated-button.tipe-keluar:hover { color: #92400e; }
     .animated-button.tipe-keluar:hover svg { fill: #92400e; }
     .animated-button.tipe-keluar:active { box-shadow: 0 0 0 4px #fffbeb; }
-</style>
+
+    </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tipe = document.getElementById('tipe');
