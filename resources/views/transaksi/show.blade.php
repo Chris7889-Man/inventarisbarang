@@ -64,14 +64,19 @@
                             <strong class="fs-6">{{ $detail->transaksi->tipe ?? '-' }}</strong>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="card card-info p-3">
-                            <small class="text-muted d-block mb-1">Tanggal</small>
+                    <div class="col-sm-6">
+                        <div class="card card-info p-3 h-100">
+                            <small class="text-muted d-block mb-1">Tanggal Input</small>
                             @php
                                 $tgl = $detail->transaksi?->tanggal;
-                                $waktu = $detail->transaksi?->created_at;
                             @endphp
-                            <strong class="fs-6">{{ $tgl?->format('d/m/y') }} | {{ strtolower(($tgl ?? $waktu)?->translatedFormat('F') ?? '-') }} | {{ $waktu?->format('H:i:s') ?? '-' }}</strong>
+                            <strong class="fs-6">{{ $tgl?->format('d/m/y') }} | {{ strtolower(($tgl)?->translatedFormat('F') ?? '-') }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card card-info p-3 h-100">
+                            <small class="text-muted d-block mb-1">Waktu Input</small>
+                            <strong class="fs-6">{{ $detail->transaksi?->created_at?->format('H:i:s') ?? '-' }}</strong>
                         </div>
                     </div>
                 </div>

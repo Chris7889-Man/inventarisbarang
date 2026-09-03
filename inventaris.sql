@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 29, 2026 at 05:24 PM
+-- Generation Time: Sep 03, 2026 at 03:07 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -29,11 +29,14 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `barangs` (
   `id` bigint UNSIGNED NOT NULL,
-  `nomor` int UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `link_image` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `kode_barang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_barang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kategori` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `satuan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `stok` int NOT NULL DEFAULT '0',
+  `harga` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `deskripsi` text COLLATE utf8mb4_unicode_ci,
+  `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -42,21 +45,58 @@ CREATE TABLE `barangs` (
 -- Dumping data for table `barangs`
 --
 
-INSERT INTO `barangs` (`id`, `nomor`, `name`, `category`, `link_image`, `description`, `created_at`, `updated_at`) VALUES
-(1, 1, 'inventaris', 'elektronik', 'https://drive.google.com/drive/folders/1G4Ccn_4DlvVnqWhdQge5jpGfeyH6picw', 'ew', '2026-08-24 00:37:16', '2026-08-24 00:37:16'),
-(2, 2, 'andra', 'orang', 'https://www.citilink.co.id/id/menu-pre-book-meals', 'wew', '2026-08-24 00:37:16', '2026-08-24 00:37:16'),
-(3, 3, 'botol minuman', 'kemasan', 'https://www.google.com/search?q', 'oke', '2026-08-24 00:37:16', '2026-08-24 00:37:16'),
-(4, 4, 'leskuker', 'elektronik', 'https://www.citilink.co.id/id/menu-pre-book-meals', 'jj', '2026-08-24 00:37:16', '2026-08-24 00:37:16'),
-(5, 5, 'galon', 'air minum', NULL, NULL, '2026-08-24 00:37:16', '2026-08-24 00:37:16'),
-(7, 6, 'proyektor', 'elektronik', 'http://10.123.2.195:8000/items/input', 'kami pergi', '2026-08-25 21:26:28', '2026-08-25 21:26:28'),
-(8, 7, 'angsa', 'angsa', 'http://10.123.2.195:8000/items/input', 'kyu', '2026-08-25 21:54:03', '2026-08-25 21:54:03'),
-(9, 8, 'kunci', 'orang', 'https://www.tokopedia.com/', 'csds', '2026-08-25 21:54:19', '2026-08-25 21:54:19'),
-(10, 9, 'alya', 'air minum', 'https://www.tokopedia.com/', 's', '2026-08-25 22:46:09', '2026-08-25 22:46:09'),
-(11, 10, 'kue', 'sabek', 'http://10.123.2.195:8000/items/input', 'kenyang', '2026-08-25 23:05:04', '2026-08-25 23:05:04'),
-(12, 11, 'alya', 'elektronik', 'https://www.tokopedia.com/', 'xsa', '2026-08-25 23:34:33', '2026-08-25 23:34:33'),
-(13, 12, 'alya', 'kemasan', 'https://www.youtube.com/', 'sada', '2026-08-25 23:34:56', '2026-08-25 23:34:56'),
-(14, 13, 'proyektor', 'sabek', NULL, 'angka', '2026-08-25 23:37:55', '2026-08-25 23:37:55'),
-(15, 14, 'leptop', 'elektronik', NULL, 'shdg', '2026-08-25 23:46:00', '2026-08-25 23:46:00');
+INSERT INTO `barangs` (`id`, `kode_barang`, `nama_barang`, `kategori`, `satuan`, `stok`, `harga`, `deskripsi`, `foto`, `created_at`, `updated_at`) VALUES
+(1, 'BRG-1788036239', 'sapu', 'kayu', NULL, 29915, 0.00, NULL, NULL, '2026-08-29 20:43:59', '2026-09-01 07:42:38'),
+(2, 'BRG-1788141675', 'polepen', 'atk', NULL, 1000, 0.00, NULL, 'barang/HNaN6HLoDn0gO6Z0ef8C34iAyBJ7hHyePdaPiBk4.jpg', '2026-08-31 02:01:15', '2026-09-01 06:49:12'),
+(3, 'BRG-1788230889', 'pensil', 'kayu', NULL, -100, 0.00, NULL, NULL, '2026-09-01 02:48:09', '2026-09-01 06:10:20'),
+(4, 'BRG-1788231879', 'buku', 'atk', NULL, 0, 0.00, NULL, NULL, '2026-09-01 03:04:39', '2026-09-01 03:04:39'),
+(5, 'BRG-1788235583', 'Akua', 'minuman', NULL, -195, 0.00, 'ini minuman untuk staff', 'barang/fD0yDv3lG1eTr3aLGSgm0QMtlbWOlDRzt6s1AwZg.jpg', '2026-09-01 04:06:24', '2026-09-01 09:27:19'),
+(6, 'BRG-1788246146', 'pot bunga', 'sabtd', NULL, 70, 0.00, NULL, 'barang/l4UKpEFNau4VSlE7CmOaEMGRx6o2VjdKyJXCeQFc.jpg', '2026-09-01 07:02:26', '2026-09-01 08:43:48'),
+(7, 'BRG-1788250178', 'surat', 'atk', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:09:38', '2026-09-01 08:09:38'),
+(8, 'BRG-1788250191', 'kue', 'makanan', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:09:51', '2026-09-01 08:09:51'),
+(9, 'BRG-1788250213', 'kipas', 'elektronik', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:10:13', '2026-09-01 08:10:13'),
+(10, 'BRG-1788250230', 'mouse', 'perangkat keras', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:10:30', '2026-09-01 08:10:30'),
+(11, 'BRG-1788250241', 'cpu', 'perangkat keras', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:10:41', '2026-09-01 08:10:41'),
+(12, 'BRG-1788250257', 'pc', 'perangkat keras', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:10:57', '2026-09-01 08:10:57'),
+(13, 'BRG-1788250279', 'rak buku', 'perlengkapan', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:11:19', '2026-09-01 08:11:19'),
+(14, 'BRG-1788250300', 'ban mobil', 'otomotif', NULL, 0, 0.00, NULL, NULL, '2026-09-01 08:11:40', '2026-09-01 08:11:40');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detail_transaksis`
+--
+
+CREATE TABLE `detail_transaksis` (
+  `id` bigint UNSIGNED NOT NULL,
+  `transaksi_id` bigint UNSIGNED NOT NULL,
+  `barang_id` bigint UNSIGNED NOT NULL,
+  `jumlah` int NOT NULL,
+  `harga_satuan` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `detail_transaksis`
+--
+
+INSERT INTO `detail_transaksis` (`id`, `transaksi_id`, `barang_id`, `jumlah`, `harga_satuan`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 12, 0.00, '2026-08-29 20:46:33', '2026-08-29 20:46:33'),
+(2, 2, 1, 1, 0.00, '2026-09-01 02:45:19', '2026-09-01 02:45:19'),
+(3, 3, 2, 2, 0.00, '2026-09-01 03:11:44', '2026-09-01 03:11:44'),
+(4, 4, 2, 1, 0.00, '2026-09-01 04:37:02', '2026-09-01 04:37:02'),
+(5, 5, 2, 1, 0.00, '2026-09-01 05:23:34', '2026-09-01 05:23:34'),
+(6, 6, 1, 1, 0.00, '2026-09-01 05:48:48', '2026-09-01 05:48:48'),
+(7, 7, 1, 100, 0.00, '2026-09-01 05:58:15', '2026-09-01 05:58:15'),
+(8, 8, 3, 100, 0.00, '2026-09-01 06:10:20', '2026-09-01 06:10:20'),
+(9, 9, 2, 1000, 0.00, '2026-09-01 06:27:23', '2026-09-01 06:27:23'),
+(10, 10, 2, 2000, 0.00, '2026-09-01 06:49:12', '2026-09-01 06:49:12'),
+(11, 11, 1, 30000, 0.00, '2026-09-01 06:50:51', '2026-09-01 06:50:51'),
+(12, 12, 6, 99, 0.00, '2026-09-01 07:26:32', '2026-09-01 07:26:32'),
+(13, 13, 1, 1, 0.00, '2026-09-01 07:42:38', '2026-09-01 07:42:38'),
+(14, 14, 6, 29, 0.00, '2026-09-01 08:43:48', '2026-09-01 08:43:48'),
+(15, 15, 5, 195, 0.00, '2026-09-01 09:27:19', '2026-09-01 09:27:19');
 
 -- --------------------------------------------------------
 
@@ -73,48 +113,6 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `items`
---
-
-CREATE TABLE `items` (
-  `id` bigint UNSIGNED NOT NULL,
-  `nomor` int UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `link_image` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` enum('masuk','keluar') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `stock` int NOT NULL DEFAULT '0',
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `items`
---
-
-INSERT INTO `items` (`id`, `nomor`, `name`, `category`, `link_image`, `type`, `stock`, `description`, `created_at`, `updated_at`) VALUES
-(35, 1, 'inventaris', 'elektronik', 'https://drive.google.com/drive/folders/1G4Ccn_4DlvVnqWhdQge5jpGfeyH6picw', 'masuk', 10, 'ew', '2026-08-20 00:07:01', '2026-08-20 00:07:01'),
-(36, 2, 'andra', 'orang', 'https://www.citilink.co.id/id/menu-pre-book-meals', 'masuk', 100, 'wew', '2026-08-20 21:39:29', '2026-08-20 21:39:29'),
-(37, 2, 'andra', 'orang', 'https://www.citilink.co.id/id/menu-pre-book-meals', 'masuk', 1, 'wew', '2026-08-22 04:50:50', '2026-08-22 04:50:50'),
-(38, 1, 'inventaris', 'elektronik', 'https://drive.google.com/drive/folders/1G4Ccn_4DlvVnqWhdQge5jpGfeyH6picw', 'keluar', 1, 'ew', '2026-08-22 04:56:43', '2026-08-22 04:56:43'),
-(39, 1, 'inventaris', 'elektronik', 'https://drive.google.com/drive/folders/1G4Ccn_4DlvVnqWhdQge5jpGfeyH6picw', 'keluar', 1, 'ew', '2026-08-22 04:56:53', '2026-08-22 04:56:53'),
-(40, 2, 'andra', 'orang', 'https://www.citilink.co.id/id/menu-pre-book-meals', 'keluar', 1, 'wew', '2026-08-22 04:57:55', '2026-08-22 04:57:55'),
-(66, 7, 'angsa', 'angsa', 'http://10.123.2.195:8000/items/input', 'keluar', 6, 'kyu', '2026-08-25 23:27:58', '2026-08-25 23:27:58'),
-(67, 7, 'angsa', 'angsa', 'http://10.123.2.195:8000/items/input', 'masuk', 1, 'kyu', '2026-08-25 23:34:42', '2026-08-25 23:34:42'),
-(68, 7, 'angsa', 'angsa', 'http://10.123.2.195:8000/items/input', 'keluar', 1, 'kyu', '2026-08-25 23:35:07', '2026-08-25 23:35:07'),
-(69, 6, 'proyektor', 'elektronik', 'http://10.123.2.195:8000/items/input', 'keluar', 1, 'kami pergi', '2026-08-25 23:38:32', '2026-08-25 23:38:32'),
-(70, 13, 'proyektor', 'sabek', NULL, 'keluar', 1, 'angka', '2026-08-25 23:43:49', '2026-08-25 23:43:49'),
-(72, 5, 'galon', 'air minum', NULL, 'masuk', 100, NULL, '2026-08-26 00:11:17', '2026-08-26 00:11:17'),
-(73, 5, 'galon', 'air minum', NULL, 'masuk', 1, NULL, '2026-08-26 00:32:45', '2026-08-26 00:32:45'),
-(74, 5, 'galon', 'air minum', NULL, 'keluar', 30, NULL, '2026-08-26 18:18:43', '2026-08-26 18:18:43'),
-(75, 2, 'andra', 'orang', 'https://www.citilink.co.id/id/menu-pre-book-meals', 'masuk', 1, 'wew', '2026-08-28 21:26:29', '2026-08-28 21:26:29'),
-(76, 5, 'galon', 'air minum', NULL, 'keluar', 1, NULL, '2026-08-28 21:34:30', '2026-08-28 21:34:30'),
-(77, 11, 'alya', 'elektronik', 'https://www.tokopedia.com/', 'masuk', 1, 'xsa', '2026-08-28 21:34:56', '2026-08-28 21:34:56');
 
 -- --------------------------------------------------------
 
@@ -141,7 +139,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2026_08_19_053324_update_items_table_remove_price_image', 1),
 (7, '2026_08_24_071133_add_nomor_to_items_table', 2),
 (8, '2026_08_24_083655_create_barangs_table', 3),
-(9, '2026_08_27_000000_create_settings_table', 4);
+(9, '2026_08_27_000000_create_settings_table', 4),
+(10, '2026_08_29_174111_create_barangs_table', 5),
+(11, '2026_08_29_174112_create_detail_transaksis_table', 5),
+(12, '2026_08_29_174112_create_transaksis_table', 5),
+(13, '2026_08_29_185741_add_role_to_users_table', 6),
+(14, '2026_08_29_193233_add_foto_to_barangs_table', 7);
 
 -- --------------------------------------------------------
 
@@ -177,29 +180,40 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `settings`
+-- Table structure for table `transaksis`
 --
 
-CREATE TABLE `settings` (
+CREATE TABLE `transaksis` (
   `id` bigint UNSIGNED NOT NULL,
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` text COLLATE utf8mb4_unicode_ci,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `kode_transaksi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipe` enum('masuk','keluar') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tanggal` date NOT NULL,
+  `keterangan` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `settings`
+-- Dumping data for table `transaksis`
 --
 
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
-(1, 'warna_primary', '#e0c306', '2026-08-26 22:19:04', '2026-08-26 22:19:04'),
-(2, 'mode_default', 'pro', '2026-08-26 22:19:04', '2026-08-28 22:17:49'),
-(3, 'sidebar_logo', NULL, '2026-08-26 22:19:04', '2026-08-26 22:19:04'),
-(4, 'sidebar_title', 'Inventaris', '2026-08-26 22:19:04', '2026-08-26 22:19:04'),
-(5, 'sidebar_subtitle', 'Manajemen Baranhh', '2026-08-26 22:19:04', '2026-08-26 22:19:04'),
-(6, 'language', 'id', '2026-08-28 09:50:14', '2026-08-28 20:39:47'),
-(7, 'font_size', 'large', '2026-08-28 09:50:14', '2026-08-28 19:32:48');
+INSERT INTO `transaksis` (`id`, `user_id`, `kode_transaksi`, `tipe`, `tanggal`, `keterangan`, `created_at`, `updated_at`) VALUES
+(1, 1, 'TRX-1788036393', 'masuk', '2026-08-29', '2', '2026-08-29 20:46:33', '2026-09-01 06:47:51'),
+(2, 1, 'TRX-1788230719', 'masuk', '2026-09-01', NULL, '2026-09-01 02:45:19', '2026-09-01 06:47:51'),
+(3, 1, 'TRX-1788232304', 'masuk', '2026-09-01', NULL, '2026-09-01 03:11:44', '2026-09-01 06:47:51'),
+(4, 1, 'TRX-1788237422', 'keluar', '2026-09-01', NULL, '2026-09-01 04:37:02', '2026-09-01 06:47:51'),
+(5, 1, 'TRX-1788240214', 'keluar', '2026-09-01', NULL, '2026-09-01 05:23:34', '2026-09-01 06:47:51'),
+(6, 1, 'TRX-1788241728', 'masuk', '2003-02-12', NULL, '2026-09-01 05:48:48', '2026-09-01 06:47:51'),
+(7, 1, 'TRX-1788242295', 'keluar', '2013-02-12', NULL, '2026-09-01 05:58:15', '2026-09-01 06:47:51'),
+(8, 1, 'TRX-1788243020', 'keluar', '2014-02-12', NULL, '2026-09-01 06:10:20', '2026-09-01 06:47:51'),
+(9, 1, 'TRX-1788244043', 'keluar', '2002-12-12', 'oke percobaan', '2026-09-01 06:27:23', '2026-09-01 06:47:51'),
+(10, 1, 'TRX-1788245352', 'masuk', '2001-09-01', NULL, '2026-09-01 06:49:12', '2026-09-01 06:49:12'),
+(11, 1, 'TRX-1788245451', 'masuk', '2000-09-01', NULL, '2026-09-01 06:50:51', '2026-09-01 06:50:51'),
+(12, 1, 'TRX-1788247592', 'masuk', '2026-09-01', NULL, '2026-09-01 07:26:32', '2026-09-01 07:26:32'),
+(13, 1, 'TRX-1788248558', 'masuk', '2026-09-01', NULL, '2026-09-01 07:42:38', '2026-09-01 07:42:38'),
+(14, 1, 'TRX-1788252228', 'keluar', '2026-09-01', NULL, '2026-09-01 08:43:48', '2026-09-01 08:43:48'),
+(15, 1, 'TRX-1788254839', 'keluar', '2026-09-01', NULL, '2026-09-01 09:27:19', '2026-09-01 09:27:19');
 
 -- --------------------------------------------------------
 
@@ -211,12 +225,20 @@ CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'karyawan',
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Admin BPKP', 'admin@bpkp.go.id', 'admin', NULL, '$2y$12$TCc/D/76IEBdvmH4yjhstefN6VVWKnaqjlqqHiQYYhmrByw1YLtwC', NULL, '2026-08-29 10:58:57', '2026-08-29 10:58:57');
 
 --
 -- Indexes for dumped tables
@@ -227,7 +249,14 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `barangs`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `barangs_name_category_unique` (`name`,`category`);
+  ADD UNIQUE KEY `barangs_kode_barang_unique` (`kode_barang`);
+
+--
+-- Indexes for table `detail_transaksis`
+--
+ALTER TABLE `detail_transaksis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `detail_transaksis_barang_id_foreign` (`barang_id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -235,12 +264,6 @@ ALTER TABLE `barangs`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Indexes for table `items`
---
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migrations`
@@ -263,11 +286,12 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indexes for table `settings`
+-- Indexes for table `transaksis`
 --
-ALTER TABLE `settings`
+ALTER TABLE `transaksis`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `settings_key_unique` (`key`);
+  ADD UNIQUE KEY `transaksis_kode_transaksi_unique` (`kode_transaksi`),
+  ADD KEY `transaksis_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -284,6 +308,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `barangs`
 --
 ALTER TABLE `barangs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `detail_transaksis`
+--
+ALTER TABLE `detail_transaksis`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
@@ -293,16 +323,10 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `items`
---
-ALTER TABLE `items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
-
---
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -311,16 +335,32 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `settings`
+-- AUTO_INCREMENT for table `transaksis`
 --
-ALTER TABLE `settings`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `transaksis`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `detail_transaksis`
+--
+ALTER TABLE `detail_transaksis`
+  ADD CONSTRAINT `detail_transaksis_barang_id_foreign` FOREIGN KEY (`barang_id`) REFERENCES `barangs` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `transaksis`
+--
+ALTER TABLE `transaksis`
+  ADD CONSTRAINT `transaksis_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
