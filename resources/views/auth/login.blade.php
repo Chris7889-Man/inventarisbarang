@@ -2,179 +2,320 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Login | Inventaris BPKP</title>
 <style>
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #1f1f1f;
-  padding: 30px;
-  width: 450px;
-  border-radius: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  border: 1px solid #333;
+.login-wrapper,
+.login-wrapper * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
 }
 
-::placeholder {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  color: #aaa;
-}
-
-.form button {
-  align-self: flex-end;
-}
-
-.flex-column > label {
-  color: #f1f1f1;
-  font-weight: 600;
-}
-
-.inputForm {
-  border: 1.5px solid #333;
-  border-radius: 10px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  transition: 0.2s ease-in-out;
-  background-color: #2b2b2b;
-}
-
-.input {
-  margin-left: 10px;
-  border-radius: 10px;
-  border: none;
-  width: 100%;
-  height: 100%;
-  background-color: #2b2b2b;
-  color: #f1f1f1;
-}
-
-.input:focus {
-  outline: none;
-}
-
-.inputForm:focus-within {
-  border: 1.5px solid #2d79f3;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.flex-row > div > label {
-  font-size: 14px;
-  color: #f1f1f1;
-  font-weight: 400;
-}
-
-.span {
-  font-size: 14px;
-  margin-left: 5px;
-  color: #2d79f3;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.button-submit {
-  margin: 20px 0 10px 0;
-  background-color: #2d79f3;
-  border: none;
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: 10px;
-  height: 50px;
-  width: 100%;
-  cursor: pointer;
-}
-
-.p {
-  text-align: center;
-  color: #f1f1f1;
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-.btn {
-  margin-top: 10px;
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
+body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 500;
-  gap: 10px;
-  border: 1px solid #333;
-  background-color: #2b2b2b;
-  color: #f1f1f1;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
+  min-height: 100vh;
+  background-color: #050508;
 }
 
-.btn:hover {
-  border: 1px solid #2d79f3;
+.login-wrapper {
+  --blob-1-color: #ff5e00;
+  --blob-2-color: #7000ff;
+  --btn-hover-glow: rgba(112, 0, 255, 0.25);
+  --input-focus-glow: rgba(112, 0, 255, 0.15);
+  position: relative;
+  animation: floatUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(30px);
 }
+
+@keyframes floatUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card {
+  position: relative;
+  width: 460px;
+  background-color: #0d0f14;
+  border-radius: 28px;
+  padding: 40px 48px;
+  overflow: hidden;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-wrapper:hover .login-card {
+  transform: translateY(-6px);
+  box-shadow:
+    0 32px 64px rgba(0, 0, 0, 0.3),
+    0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.glow-blob {
+  position: absolute;
+  filter: blur(45px);
+  border-radius: 50%;
+  z-index: 0;
+  opacity: 0.6;
+  animation: pulseGlow 4s infinite alternate ease-in-out;
+  transition:
+    opacity 0.5s ease,
+    filter 0.5s ease;
+}
+
+.login-wrapper:hover .glow-blob {
+  opacity: 0.75;
+  filter: blur(40px);
+}
+
+.blob-1 {
+  top: -30px;
+  right: -30px;
+  width: 170px;
+  height: 170px;
+  background: var(--blob-1-color);
+}
+
+.blob-2 {
+  bottom: -50px;
+  left: -50px;
+  width: 210px;
+  height: 210px;
+  background: var(--blob-2-color);
+  animation-delay: -2s;
+}
+
+@keyframes pulseGlow {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+.dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(5, 5, 8, 0.85) 30%,
+    transparent 100%
+  );
+  z-index: 1;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: inherit;
+}
+
+.view-container {
+  position: relative;
+  z-index: 10;
+}
+
+.form-view {
+  display: flex;
+  flex-direction: column;
+  animation: fadeInView 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInView {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin: 0 auto 1em auto;
+  display: block;
+  border-radius: 16px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
+  font-weight: 400;
+}
+
 .error-msg {
-    color: #ff6b6b;
-    font-size: 13px;
-    margin-bottom: 10px;
-    text-align: center;
+  color: #ff6b6b;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 10px;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: 10px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-field {
+  width: 100%;
+  padding: 1.15em 1.3em;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.input-field::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.input-field:focus {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px var(--input-focus-glow);
+  transform: translateY(-2px);
+}
+
+.input-field:-webkit-autofill,
+.input-field:-webkit-autofill:hover,
+.input-field:-webkit-autofill:focus,
+.input-field:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #0d0f14 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.forgot-link {
+  display: block;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  text-decoration: none;
+  margin-top: -8px;
+  margin-bottom: 28px;
+  transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+  color: #ffffff;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1.1em;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-submit:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--btn-hover-glow);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
 }
 </style>
 </head>
-<body style="display:flex; justify-content:center; align-items:center; min-height:100vh; background-color:#121212;">
+<body>
 
-<form class="form" method="POST" action="/login">
-  @csrf
-  <div class="text-center" style="margin-bottom:20px;">
-      <img src="/image.png" style="max-height:80px; margin-bottom:10px;">
-      <h3 style="color:#fff;">Inventaris BPKP</h3>
-  </div>
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="dark-overlay"></div>
 
-  @if($errors->any())
-    <div class="error-msg">⚠️ {{ $errors->first() }}</div>
-  @endif
+    <div class="view-container">
+      <div class="form-view" id="login-view">
+        <div class="header">
+          <img src="/image.png" alt="Logo" class="logo" />
+          <div class="title">Welcome Back</div>
+          <p class="subtitle">Please enter your details to sign in.</p>
+        </div>
 
-  <div class="flex-column">
-    <label>Email </label>
-  </div>
-  <div class="inputForm">
-    <svg height="20" viewBox="0 0 32 32" width="20" xmlns="http://www.w3.org/2000/svg">
-      <g id="Layer_3" data-name="Layer 3">
-        <path fill="#fff" d="m30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455zm-14.853 8.13a6 6 0 1 1 6-6 6.006 6.006 0 0 1 -6 6z"></path>
-      </g>
-    </svg>
-    <input type="email" name="email" class="input" placeholder="Enter your Email" required />
-  </div>
+        @if($errors->any())
+          <div class="error-msg">{{ $errors->first() }}</div>
+        @endif
 
-  <div class="flex-column">
-    <label>Password </label>
-  </div>
-  <div class="inputForm">
-    <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#fff" d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0"></path>
-      <path fill="#fff" d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0"></path>
-    </svg>
-    <input type="password" name="password" class="input" placeholder="Enter your Password" required />
-  </div>
+        <form method="POST" action="/login">
+          @csrf
+          <div class="input-group">
+            <input
+              type="email"
+              name="email"
+              class="input-field"
+              placeholder="Email address"
+              required=""
+              autocomplete="email"
+              value="{{ old('email') }}"
+            />
+          </div>
 
-  <div class="flex-row">
-    <div>
-      <input type="checkbox" name="remember" />
-      <label>Remember me </label>
+          <div class="input-group">
+            <input
+              type="password"
+              name="password"
+              class="input-field"
+              placeholder="Password"
+              required=""
+              autocomplete="current-password"
+            />
+          </div>
+
+          <a href="{{ route('password.request') }}" class="forgot-link">Forgot password?</a>
+
+          <button type="submit" class="btn-submit">Sign In</button>
+        </form>
+      </div>
     </div>
-    <span class="span">Forgot password?</span>
   </div>
-  <button class="button-submit">Sign In</button>
-  <p class="p">Don't have an account? <span class="span">Sign Up</span></p>
-</form>
+</div>
 </body>
 </html>
