@@ -68,5 +68,75 @@
         </div>
     </div>
 </div>
+
+@if($barang->drive_folder_id)
+<div class="card card-ringkas mt-4">
+    <div class="card-header bg-white"><i class="bi bi-google text-danger me-2"></i>Google Drive</div>
+    <div class="card-body">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <a href="https://drive.google.com/drive/folders/{{ $barang->drive_folder_id }}" target="_blank" class="btn btn-outline-primary">
+                <i class="bi bi-folder2-open me-1"></i> Buka Folder Foto Barang
+            </a>
+            <span class="text-muted small">Tersimpan di Drive (Share ke: {{ \App\Models\Setting::first()?->default_email ?? '-' }})</span>
+        </div>
+    </div>
+</div>
+@endif
+
+<div class="card card-ringkas mt-4">
+    <div class="card-header">Riwayat Transaksi Barang</div>
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-sm table-hover table-bordered-soft mb-0 text-center align-middle">
+            <thead class="position-sticky top-0 bg-white z-10">
+                <tr>
+                    <th>NO</th>
+                    <th>Tipe</th>
+                    <th>Jumlah</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($riwayat as $index => $item)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        @if($item->transaksi?->tipe == 'masuk')
+                            <span class="badge bg-success-subtle text-success-emphasis">Masuk</span>
+                        @elseif($item->transaksi?->tipe == 'keluar')
+                            <span class="badge bg-warning-subtle text-warning-emphasis">Keluar</span>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td>{{ $item->jumlah }}</td>
+                    <td>{{ $item->transaksi?->tanggal?->format('d/m/y') ?? '-' }}</td>
+                    <td>
+                        <div class="d-flex gap-1 justify-content-center">
+                            <a href="/transaksi/{{ $item->id }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">Tidak ada data riwayat.</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-3">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show mt-3">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
 </div>
 @endsection

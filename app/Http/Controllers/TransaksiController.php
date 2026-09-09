@@ -106,6 +106,40 @@ class TransaksiController extends Controller
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibuat');
     }
 
+    public function destroy($id)
+    {
+        try {
+            $barangId = null;
+            DB::transaction(function () use ($id, &$barangId) {
+                $detail = DetailTransaksi::with('transaksi')->findOrFail($id);
+                $barangId = $detail->barang_id;
+
+                if ($detail->transaksi) {
+                    $barang = Barang::find($barangId);
+                    if ($barang) {
+                        if ($detail->transaksi->tipe == 'masuk') {
+                            $barang->decrement('stok', $detail->jumlah);
+                        } else {
+                            $barang->increment('stok', $detail->jumlah);
+                        }
+                    }
+                    $detail->transaksi->delete();
+                }
+
+                $detail->delete();
+            });
+
+            // Jika hapus dari halaman detail transaksi, redirect ke detail barang
+            if (strpos(url()->previous(), "/transaksi/{$id}") !== false) {
+                return redirect()->route('barang.show', $barangId)->with('success', 'Transaksi berhasil dihapus');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus transaksi: ' . $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Transaksi berhasil dihapus');
+    }
+
     public function riwayat(Request $request)
     {
         $bulan = $request->get('bulan', 'all');

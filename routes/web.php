@@ -23,10 +23,12 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 
 Route::middleware(['auth', 'app.language'])->group(function () {
     Route::resource('barang', BarangController::class);
+    Route::post('/barang/{barang}/foto', [BarangController::class, 'updateFoto'])->name('barang.foto');
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
     Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+    Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
     Route::get('/riwayat', [TransaksiController::class, 'riwayat'])->name('riwayat');
     Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
     Route::post('/setting', [SettingController::class, 'update'])->name('setting.update');
