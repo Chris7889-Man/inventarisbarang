@@ -42,7 +42,13 @@ class SettingController extends Controller
             }
 
             $data = [];
-            if ($request->has('drive_root_folder_id')) $data['drive_root_folder_id'] = $request->drive_root_folder_id;
+            if ($request->has('drive_root_folder_id')) {
+                $rawFolderId = trim($request->drive_root_folder_id);
+                if (preg_match('/folders\/([a-zA-Z0-9_-]+)/', $rawFolderId, $m)) {
+                    $rawFolderId = $m[1];
+                }
+                $data['drive_root_folder_id'] = $rawFolderId;
+            }
             if ($request->has('default_email')) $data['default_email'] = $request->default_email;
 
             Setting::updateOrCreate(['id' => 1], $data);
